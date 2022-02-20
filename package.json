@@ -8,7 +8,9 @@
         "start": "node backend/server",
         "server": "nodemon backend/server",
         "client": "npm run dev --prefix frontend",
-        "dev": "concurrently \"npm run server\" \"npm run client\" "
+        "client-phone": "npm run dev --prefix frontend-phone",
+        "dev": "concurrently \"npm run server\" \"npm run client\" ",
+        "dev-phone": "concurrently \"npm run server\" \"npm run client-phone\" "
     },
     "keywords": [
         "Svelte",
@@ -27,6 +29,9 @@
         "cors": "^2.8.5",
         "dotenv": "^16.0.0",
         "express": "^4.17.2",
+        "framework7": "^6.3.16",
+        "framework7-icons": "^5.0.5",
+        "framework7-svelte": "^6.3.16",
         "mysql2": "^2.3.3",
         "sequelize": "^6.15.0"
     }
