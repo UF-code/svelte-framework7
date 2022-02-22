@@ -8,6 +8,7 @@
         Card,
         Block,
         Row,
+        Col,
         Button,
     } from 'framework7-svelte'
     import { onMount } from 'svelte'
@@ -60,7 +61,7 @@
 
 {#if loading}
     <List mediaList v-if="loading">
-        {#each [1, 2, 3] as n, index (index)}
+        {#each customers as index, custommer (custommer)}
             <ListItem
                 class={`skeleton-text skeleton-effect-${effect}`}
                 title="Full Name"
@@ -77,7 +78,7 @@
     </List>
 {:else}
     <List mediaList>
-        <ListItem
+        <!-- <ListItem
             title="John Doe"
             subtitle="CEO"
             text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum. Cras consequat felis at consequat hendrerit. Aliquam vestibulum vitae lorem ac iaculis. Praesent nec pharetra massa, at blandit lectus. Sed tincidunt, lectus eu convallis elementum, nibh nisi aliquet urna, nec imperdiet felis sapien at enim."
@@ -112,12 +113,20 @@
                 slot="media"
                 alt="test3"
             />
-        </ListItem>
+        </ListItem> -->
         {#each customers as customer}
             <ListItem title={`Customer ID: ${customer.id}  `}>
                 <p>Full Name: {customer.first_name} {customer.last_name}</p>
                 <p>Email: {customer.email}</p>
                 <p>Birthdate: {customer.birthdate}</p>
+                <Row>
+                    <Col>
+                        <Button fill round>Edit</Button>
+                    </Col>
+                    <Col>
+                        <Button fill round>Delete</Button>
+                    </Col>
+                </Row>
             </ListItem>
         {/each}
     </List>
