@@ -3,14 +3,9 @@
 </script>
 
 <Page name="about">
-    <Navbar title="uf-code" backLink="Back">
+    <Navbar title="About" backLink="Back">
         <NavRight>
-            <!-- <Link icon="icon-bars" panelOpen="right" />
-            hey -->
+            <!-- <Link icon="icon-bars" panelOpen="right" /> -->
         </NavRight>
     </Navbar>
-
-    <h1>About Page</h1>
-
-    <Link href="/">Home Page</Link>
 </Page>

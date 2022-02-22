@@ -10,7 +10,8 @@
         "client": "npm run dev --prefix frontend",
         "client-phone": "npm run dev --prefix frontend-phone",
         "dev": "concurrently \"npm run server\" \"npm run client\" ",
-        "dev-phone": "concurrently \"npm run server\" \"npm run client-phone\" "
+        "dev-phone": "concurrently \"npm run server\" \"npm run client-phone\" ",
+        "dev-all": "concurrently \"npm run server\" \"npm run client\" \"npm run client-phone\" "
     },
     "keywords": [
         "Svelte",
