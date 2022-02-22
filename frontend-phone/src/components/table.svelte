@@ -10,6 +10,24 @@
         Row,
         Button,
     } from 'framework7-svelte'
+    import { onMount } from 'svelte'
+    import axios from '../js/axios.js'
+
+    let customers = []
+
+    onMount(() => {
+        axios
+            .get(`/getAllCustomers`)
+            .then((res) => {
+                customers = [...res.data]
+                console.log(res.data)
+                console.log(customers)
+                console.log(...customers)
+            })
+            .catch((err) => {
+                console.error(err)
+            })
+    })
 
     let loading = false
     let effect = null
@@ -95,13 +113,11 @@
                 alt="test3"
             />
         </ListItem>
-        {#each [1, 2, 3] as hey}
-            <ListItem
-                title={`Test Title ${hey}`}
-                subtitle={`Test ${hey}`}
-                text="heyhey"
-            >
-                <p>{hey}</p>
+        {#each customers as customer}
+            <ListItem title={`Customer ID: ${customer.id}  `}>
+                <p>Full Name: {customer.first_name} {customer.last_name}</p>
+                <p>Email: {customer.email}</p>
+                <p>Birthdate: {customer.birthdate}</p>
             </ListItem>
         {/each}
     </List>
