@@ -11,6 +11,7 @@
         Col,
         Button,
     } from 'framework7-svelte'
+    import AddCustomer from './AddCustomer.svelte'
     import { onMount } from 'svelte'
     import axios from '../js/axios.js'
 
@@ -20,6 +21,7 @@
         axios
             .get(`/getAllCustomers`)
             .then((res) => {
+                load('wave')
                 customers = [...res.data]
                 console.log(res.data)
                 console.log(customers)
@@ -44,20 +46,7 @@
     }
 </script>
 
-<BlockTitle>Loading Effects</BlockTitle>
-<Block strong>
-    <Row tag="p">
-        <Button fill small round class="col" onClick={() => load('fade')}
-            >Fade</Button
-        >
-        <Button fill small round class="col" onClick={() => load('wave')}
-            >Wave</Button
-        >
-        <Button fill small round class="col" onClick={() => load('pulse')}
-            >Pulse</Button
-        >
-    </Row>
-</Block>
+<AddCustomer />
 
 {#if loading}
     <List mediaList v-if="loading">
