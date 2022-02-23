@@ -4,6 +4,7 @@
         Button,
         Popup,
         Page,
+        Row,
         Navbar,
         NavRight,
         Link,
@@ -13,10 +14,7 @@
 
     import { store_customers } from '../js/customer_store'
 
-    let first_name
-    let last_name
-    let email
-    let birthdate
+    let first_name, last_name, email, birthdate
 </script>
 
 <!-- <BlockTitle>Loading Effects</BlockTitle> -->
@@ -110,6 +108,16 @@
                     birthdate = e.target.value
                 }}
             />
+            <Button
+                fill
+                round
+                small
+                on:click={() => {
+                    console.log(first_name)
+                    console.log(last_name)
+                    console.log(email)
+                }}>Add Customer</Button
+            >
         </List>
 
         <!-- onInput={(e) => (birthdate = e.target.value)}
