@@ -14,23 +14,25 @@
     import AddCustomer from './AddCustomer.svelte'
     import { onMount } from 'svelte'
     import axios from '../js/axios.js'
+    import { store_customers } from '../js/customer_store.js'
+    import EditCustomer from './EditCustomer.svelte'
 
-    let customers = []
+    // let customers = []
 
-    onMount(() => {
-        axios
-            .get(`/getAllCustomers`)
-            .then((res) => {
-                load('wave')
-                customers = [...res.data]
-                console.log(res.data)
-                console.log(customers)
-                console.log(...customers)
-            })
-            .catch((err) => {
-                console.error(err)
-            })
-    })
+    // onMount(() => {
+    //     axios
+    //         .get(`/getAllCustomers`)
+    //         .then((res) => {
+    //             load('wave')
+    //             customers = [...res.data]
+    //             console.log(res.data)
+    //             console.log(customers)
+    //             console.log(...customers)
+    //         })
+    //         .catch((err) => {
+    //             console.error(err)
+    //         })
+    // })
 
     let loading = false
     let effect = null
@@ -50,7 +52,7 @@
 
 {#if loading}
     <List mediaList v-if="loading">
-        {#each customers as index, custommer (custommer)}
+        {#each $store_customers as index, customer (customer)}
             <ListItem
                 class={`skeleton-text skeleton-effect-${effect}`}
                 title="Full Name"
@@ -103,14 +105,14 @@
                 alt="test3"
             />
         </ListItem> -->
-        {#each customers as customer}
+        {#each $store_customers as customer}
             <ListItem title={`Customer ID: ${customer.id}  `}>
                 <p>Full Name: {customer.first_name} {customer.last_name}</p>
                 <p>Email: {customer.email}</p>
                 <p>Birthdate: {customer.birthdate}</p>
                 <Row>
                     <Col>
-                        <Button fill round>Edit</Button>
+                        <EditCustomer customer_id={customer.id} />
                     </Col>
                     <Col>
                         <Button fill round>Delete</Button>

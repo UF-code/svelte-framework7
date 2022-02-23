@@ -19,7 +19,22 @@
     } from 'framework7-svelte'
     import 'framework7-icons'
 
-    import Test from '../components/table.svelte'
+    import Test from '../components/Table.svelte'
+    import { onMount } from 'svelte'
+    import axios from '../js/axios.js'
+    import { store_customers } from '../js/customer_store'
+
+    onMount(() => {
+        axios
+            .get(`/getAllCustomers`)
+            .then((res) => {
+                console.log(res)
+                store_customers.set(res.data)
+            })
+            .catch((err) => {
+                console.error(err)
+            })
+    })
 </script>
 
 <Page name="home">

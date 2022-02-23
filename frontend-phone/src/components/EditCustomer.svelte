@@ -1,81 +1,35 @@
 <script>
     import {
-        Block,
-        Button,
         Popup,
         Page,
-        Row,
         Navbar,
         NavRight,
         Link,
         List,
         ListInput,
+        Button,
     } from 'framework7-svelte'
     import axios from '../js/axios.js'
     import { store_customers } from '../js/customer_store.js'
+    export let customer_id
 
     let first_name, last_name, email, birthdate
-    let customer
 
-    const handleSubmit = () => {
-        axios
-            .post('/addCustomer', {
-                first_name: first_name,
-                last_name: last_name,
-                email: email,
-                birthdate: birthdate,
-            })
-            .then((res) => {
-                customer = res.data
+    const current_customer = $store_customers.find(
+        (customer) => customer.id == customer_id
+    )
 
-                store_customers.update((currentCustomers) => {
-                    return [
-                        ...currentCustomers,
-                        {
-                            id: customer.id,
-                            first_name: customer.first_name,
-                            last_name: customer.last_name,
-                            email: customer.email,
-                            birthdate: customer.birthdate,
-                        },
-                    ]
-                })
-            })
-            .then(() => {
-                first_name = ''
-                last_name = ''
-                email = ''
-                birthdate = ''
-            })
-            .catch((err) => {
-                console.error(err)
-            })
+    first_name = current_customer.first_name
+    last_name = current_customer.last_name
+    email = current_customer.email
+    birthdate = current_customer.birthdate
+
+    const handleEdit = () => {
+        console.log('hey')
     }
 </script>
 
-<!-- <BlockTitle>Loading Effects</BlockTitle> -->
-<Block strong>
-    <!-- <Row tag="p">
-        <Button fill small round class="col" onClick={() => load('fade')}
-            >Fade</Button
-        >
-        <Button fill small round class="col" onClick={() => load('wave')}
-            >Wave</Button
-        >
-        <Button fill small round class="col" onClick={() => load('pulse')}
-            >Pulse</Button
-        >
-    </Row> -->
-    <!-- <Button
-        fill
-        round
-        onClick={() => {
-            console.log('hey')
-        }}>Add Customer</Button
-    > -->
-
-    <Button fill round popupOpen=".demo-popup-swipe">Add Customer</Button>
-</Block>
+<Button fill round popupOpen=".demo-popup-swipe">Edit</Button>
 
 <Popup class="demo-popup-swipe" swipeToClose>
     <Page>
@@ -92,6 +46,7 @@
                 type="text"
                 placeholder="First Name"
                 clearButton
+                value={first_name}
                 onInput={(e) => (first_name = e.target.value)}
                 onChange={() => {
                     console.log(first_name)
@@ -106,6 +61,7 @@
                 type="text"
                 placeholder="Last Name"
                 clearButton
+                value={last_name}
                 onInput={(e) => (last_name = e.target.value)}
                 onChange={() => {
                     console.log(last_name)
@@ -121,6 +77,7 @@
                 validate
                 placeholder="Your e-mail"
                 clearButton
+                value={email}
                 onInput={(e) => (email = e.target.value)}
                 onChange={() => {
                     console.log(email)
@@ -134,6 +91,7 @@
                 type="datepicker"
                 placeholder="Select date"
                 readonly
+                value={birthdate}
                 calendarParams={{
                     openIn: 'customModal',
                     header: true,
@@ -150,13 +108,7 @@
                 round
                 small
                 popupClose=".demo-popup-swipe"
-                on:click={() => {
-                    console.log(first_name)
-                    console.log(last_name)
-                    console.log(email)
-                    console.log(birthdate)
-                    handleSubmit()
-                }}>Add Customer</Button
+                on:click={() => handleEdit()}>Add Customer</Button
             >
         </List>
 
