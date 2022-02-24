@@ -4,7 +4,6 @@
         Button,
         Popup,
         Page,
-        Row,
         Navbar,
         NavRight,
         Link,
@@ -53,27 +52,7 @@
     }
 </script>
 
-<!-- <BlockTitle>Loading Effects</BlockTitle> -->
 <Block strong>
-    <!-- <Row tag="p">
-        <Button fill small round class="col" onClick={() => load('fade')}
-            >Fade</Button
-        >
-        <Button fill small round class="col" onClick={() => load('wave')}
-            >Wave</Button
-        >
-        <Button fill small round class="col" onClick={() => load('pulse')}
-            >Pulse</Button
-        >
-    </Row> -->
-    <!-- <Button
-        fill
-        round
-        onClick={() => {
-            console.log('hey')
-        }}>Add Customer</Button
-    > -->
-
     <Button fill round popupOpen=".demo-popup-swipe">Add Customer</Button>
 </Block>
 
@@ -92,13 +71,12 @@
                 type="text"
                 placeholder="First Name"
                 clearButton
+                value={first_name}
                 onInput={(e) => (first_name = e.target.value)}
                 onChange={() => {
                     console.log(first_name)
                 }}
-            >
-                <!-- <i class="icon demo-list-icon" slot="media" /> -->
-            </ListInput>
+            />
 
             <ListInput
                 label="Last Name"
@@ -106,13 +84,12 @@
                 type="text"
                 placeholder="Last Name"
                 clearButton
+                value={last_name}
                 onInput={(e) => (last_name = e.target.value)}
                 onChange={() => {
                     console.log(last_name)
                 }}
-            >
-                <!-- <i class="icon demo-list-icon" slot="media" /> -->
-            </ListInput>
+            />
 
             <ListInput
                 label="E-mail"
@@ -120,14 +97,13 @@
                 type="email"
                 validate
                 placeholder="Your e-mail"
+                value={email}
                 clearButton
                 onInput={(e) => (email = e.target.value)}
                 onChange={() => {
                     console.log(email)
                 }}
-            >
-                <!-- <i class="icon demo-list-icon" slot="media" /> -->
-            </ListInput>
+            />
 
             <ListInput
                 label="Birthdate"
@@ -145,6 +121,14 @@
                     console.log(birthdate[0])
                 }}
             />
+            <!-- <ListInput
+                label="Birthday"
+                type="date"
+                value={birthdate}
+                placeholder="Please choose..."
+            >
+                <i class="icon demo-list-icon" slot="media" />
+            </ListInput> -->
             <Button
                 fill
                 round

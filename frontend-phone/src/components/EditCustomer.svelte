@@ -9,14 +9,11 @@
         ListInput,
         Button,
     } from 'framework7-svelte'
-    import { beforeUpdate } from 'svelte'
-    import axios from '../js/axios.js'
-    import { onMount } from 'svelte'
     import { store_customers } from '../js/customer_store.js'
     export let customer_id
-    let flag = false
+
     let first_name, last_name, email, birthdate
-    let test_id = 0
+    let hey
 
     // beforeUpdate(() => {
     //     console.log(customer_id)
@@ -55,12 +52,18 @@
 
     const openEdit = () => {
         console.log(customer_id)
-        console.log(customer_id)
+        const t = filter_same_id(customer_id)
+        console.log(t)
+        // console.log(customer_id)
         // test_id = id_
+        first_name = t.first_name
+        console.log(first_name)
+
+        return t
     }
 
-    const handleEdit = (t_id) => {
-        console.log(t_id)
+    const handleEdit = () => {
+        console.log(hey)
         // axios
         //     .put(`/updateCustomer/${customer_id}`, {
         //         first_name: first_name,
@@ -77,11 +80,17 @@
     }
 </script>
 
-<Button fill round on:click={openEdit} popupOpen=".demo-popup-swipe"
-    >Edit</Button
+<Button
+    fill
+    round
+    on:click={() => {
+        hey = openEdit()
+        console.log(hey)
+    }}
+    popupOpen=".edit-popup-swipe">Edit</Button
 >
 
-<Popup class="demo-popup-swipe" swipeToClose>
+<Popup class="edit-popup-swipe" swipeToClose>
     <Page>
         <Navbar title="Edit Customer Hey">
             <NavRight>
@@ -102,7 +111,7 @@
                     console.log(first_name)
                 }}
             >
-                <!-- <i class="icon demo-list-icon" slot="media" /> -->
+                <!-- <i class="icon edit-list-icon" slot="media" /> -->
             </ListInput>
 
             <ListInput
@@ -117,7 +126,7 @@
                     console.log(last_name)
                 }}
             >
-                <!-- <i class="icon demo-list-icon" slot="media" /> -->
+                <!-- <i class="icon edit-list-icon" slot="media" /> -->
             </ListInput>
 
             <ListInput
@@ -133,7 +142,7 @@
                     console.log(email)
                 }}
             >
-                <!-- <i class="icon demo-list-icon" slot="media" /> -->
+                <!-- <i class="icon edit-list-icon" slot="media" /> -->
             </ListInput>
 
             <ListInput
@@ -156,8 +165,8 @@
                 fill
                 round
                 small
-                popupClose=".demo-popup-swipe"
-                on:click={handleEdit(test_id)}>Edit Customer</Button
+                popupClose=".edit-popup-swipe"
+                on:click={handleEdit}>Edit Customer</Button
             >
         </List>
 

@@ -19,7 +19,8 @@
     } from 'framework7-svelte'
     import 'framework7-icons'
 
-    import Test from '../components/Table.svelte'
+    import AddCustomer from '../components/AddCustomer.svelte'
+    import CustomerTable from '../components/CustomerTable.svelte'
     import { onMount } from 'svelte'
     import axios from '../js/axios.js'
     import { store_customers } from '../js/customer_store'
@@ -46,5 +47,7 @@
         </NavRight>
     </Navbar>
 
-    <Test />
+    <AddCustomer />
+
+    <CustomerTable />
 </Page>

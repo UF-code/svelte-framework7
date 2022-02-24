@@ -1,0 +1,297 @@
+<script>
+    import {
+        Navbar,
+        BlockTitle,
+        List,
+        ListItem,
+        SkeletonBlock,
+        Card,
+        Block,
+        Row,
+        Col,
+        Button,
+        Popup,
+        Page,
+        NavRight,
+        Link,
+        ListInput,
+    } from 'framework7-svelte'
+    import axios from '../js/axios.js'
+    import { store_customers } from '../js/customer_store.js'
+
+    let first_name, last_name, email, birthdate, id
+
+    let filter_same_id = (customer_id_) =>
+        $store_customers.filter((customer) => customer.id == customer_id_)[0]
+
+    const handleEdit = (id_) => {
+        let current_customer = filter_same_id(id_)
+        id = current_customer.id
+        first_name = current_customer.first_name
+        last_name = current_customer.last_name
+        email = current_customer.email
+        birthdate = current_customer.birthdate
+
+        console.log(`Handle Edit ID: ${id_}`)
+    }
+
+    const editCustomer = () => {
+        axios
+            .put(`/updateCustomer/${id}`, {
+                first_name: first_name,
+                last_name: last_name,
+                email: email,
+                birthdate: birthdate,
+            })
+            .then((res) => {
+                let current_customer = filter_same_id(id)
+                current_customer.first_name = first_name
+                current_customer.last_name = last_name
+                current_customer.email = email
+                current_customer.birthdate = birthdate
+
+                store_customers.set($store_customers)
+            })
+            .catch((err) => {
+                console.error(err)
+            })
+    }
+
+    const handleDelete = (id_) => {
+        let current_customer = filter_same_id(id_)
+        id = current_customer.id
+        first_name = current_customer.first_name
+        last_name = current_customer.last_name
+        email = current_customer.email
+        birthdate = current_customer.birthdate
+    }
+    const deleteCustomer = () => {
+        let newlist = $store_customers.filter((customer) => customer.id != id)
+        console.log(newlist)
+
+        axios
+            .delete(`/deleteCustomer/${id}`)
+            .then((res) => {
+                console.log(res)
+                console.log(res.data)
+
+                store_customers.set(newlist)
+            })
+            .catch((err) => {
+                console.error(err)
+            })
+    }
+</script>
+
+<List mediaList>
+    {#each $store_customers as customer}
+        <ListItem title={`Customer ID: ${customer.id}  `}>
+            <p>Full Name: {customer.first_name} {customer.last_name}</p>
+            <p>Email: {customer.email}</p>
+            <p>Birthdate: {customer.birthdate}</p>
+            <Row>
+                <Col>
+                    <Button
+                        fill
+                        round
+                        popupOpen=".edit-popup-swipe"
+                        on:click={handleEdit(customer.id)}>Edit</Button
+                    >
+                </Col>
+                <Col>
+                    <Button
+                        fill
+                        round
+                        popupOpen=".delete-popup-swipe"
+                        on:click={handleDelete(customer.id)}>Delete</Button
+                    >
+                </Col>
+            </Row>
+        </ListItem>
+    {/each}
+</List>
+
+<Popup class="edit-popup-swipe" swipeToClose>
+    <Page>
+        <Navbar title="Edit Customer Hey">
+            <NavRight>
+                <Link popupClose>Close</Link>
+            </NavRight>
+        </Navbar>
+
+        <List noHairlinesMd>
+            <ListInput
+                label="First Name"
+                floatingLabel
+                type="text"
+                placeholder="First Name"
+                clearButton
+                value={first_name}
+                onInput={(e) => (first_name = e.target.value)}
+                onChange={() => {
+                    console.log(first_name)
+                }}
+            >
+                <!-- <i class="icon edit-list-icon" slot="media" /> -->
+            </ListInput>
+
+            <ListInput
+                label="Last Name"
+                floatingLabel
+                type="text"
+                placeholder="Last Name"
+                clearButton
+                value={last_name}
+                onInput={(e) => (last_name = e.target.value)}
+                onChange={() => {
+                    console.log(last_name)
+                }}
+            >
+                <!-- <i class="icon edit-list-icon" slot="media" /> -->
+            </ListInput>
+
+            <ListInput
+                label="E-mail"
+                floatingLabel
+                type="email"
+                validate
+                placeholder="Your e-mail"
+                clearButton
+                value={email}
+                onInput={(e) => (email = e.target.value)}
+                onChange={() => {
+                    console.log(email)
+                }}
+            >
+                <!-- <i class="icon edit-list-icon" slot="media" /> -->
+            </ListInput>
+
+            <ListInput
+                label="Birthdate"
+                type="datepicker"
+                placeholder="Select date"
+                readonly
+                calendarParams={{
+                    openIn: 'customModal',
+                    header: true,
+                    footer: true,
+                    dateFormat: 'MM dd yyyy',
+                }}
+                onCalendarChange={(date_value) => {
+                    birthdate = date_value
+                    console.log(birthdate[0])
+                }}
+            />
+            <!-- 
+            <ListInput
+                label="Birthday"
+                type="date"
+                value={birthdate}
+                placeholder="Please choose..."
+            >
+                <i class="icon demo-list-icon" slot="media" />
+            </ListInput> -->
+
+            <Button
+                fill
+                round
+                small
+                popupClose=".edit-popup-swipe"
+                on:click={editCustomer}>Edit Customer</Button
+            >
+        </List>
+
+        <div
+            style="height: 100%"
+            class="display-flex justify-content-center align-items-center"
+        />
+    </Page>
+</Popup>
+
+<!-- DELETE CUSTOMER -->
+<Popup class="delete-popup-swipe" swipeToClose>
+    <Page>
+        <Navbar title="Edit Customer Hey">
+            <NavRight>
+                <Link popupClose>Close</Link>
+            </NavRight>
+        </Navbar>
+
+        <List noHairlinesMd>
+            <ListInput
+                label="First Name"
+                floatingLabel
+                type="text"
+                placeholder="First Name"
+                clearButton
+                value={first_name}
+                onInput={(e) => (first_name = e.target.value)}
+                onChange={() => {
+                    console.log(first_name)
+                }}
+            >
+                <!-- <i class="icon edit-list-icon" slot="media" /> -->
+            </ListInput>
+
+            <ListInput
+                label="Last Name"
+                floatingLabel
+                type="text"
+                placeholder="Last Name"
+                clearButton
+                value={last_name}
+                onInput={(e) => (last_name = e.target.value)}
+                onChange={() => {
+                    console.log(last_name)
+                }}
+            >
+                <!-- <i class="icon edit-list-icon" slot="media" /> -->
+            </ListInput>
+
+            <ListInput
+                label="E-mail"
+                floatingLabel
+                type="email"
+                validate
+                placeholder="Your e-mail"
+                clearButton
+                value={email}
+                onInput={(e) => (email = e.target.value)}
+                onChange={() => {
+                    console.log(email)
+                }}
+            >
+                <!-- <i class="icon edit-list-icon" slot="media" /> -->
+            </ListInput>
+
+            <ListInput
+                label="Birthdate"
+                type="datepicker"
+                placeholder="Select date"
+                readonly
+                calendarParams={{
+                    openIn: 'customModal',
+                    header: true,
+                    footer: true,
+                    dateFormat: 'MM dd yyyy',
+                }}
+                onCalendarChange={(date_value) => {
+                    birthdate = date_value
+                    console.log(birthdate[0])
+                }}
+            />
+            <Button
+                fill
+                round
+                small
+                popupClose=".delete-popup-swipe"
+                on:click={deleteCustomer}>Delete Customer</Button
+            >
+        </List>
+
+        <div
+            style="height: 100%"
+            class="display-flex justify-content-center align-items-center"
+        />
+    </Page>
+</Popup>
