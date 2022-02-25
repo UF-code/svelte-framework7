@@ -20,7 +20,12 @@
     import { store_customers } from '../js/customer_store.js'
 
     let first_name, last_name, email, birthdate, id
+    // let fullname = ''
 
+    // $: {
+    //     fullname = first_name + ' ' + last_name
+    //     console.log('Full Name', fullname)
+    // }
     let filter_same_id = (customer_id_) =>
         $store_customers.filter((customer) => customer.id == customer_id_)[0]
 
@@ -126,29 +131,26 @@
                 type="text"
                 placeholder="First Name"
                 clearButton
-                value={first_name}
-                onInput={(e) => (first_name = e.target.value)}
-                onChange={() => {
-                    console.log(first_name)
-                }}
+                bind:value={first_name}
             >
                 <!-- <i class="icon edit-list-icon" slot="media" /> -->
             </ListInput>
-
+            <!-- onInput={(e) => (first_name = e.target.value)} -->
+            <!-- value={first_name} -->
             <ListInput
                 label="Last Name"
                 floatingLabel
                 type="text"
                 placeholder="Last Name"
                 clearButton
-                value={last_name}
-                onInput={(e) => (last_name = e.target.value)}
-                onChange={() => {
-                    console.log(last_name)
-                }}
+                bind:value={last_name}
             >
                 <!-- <i class="icon edit-list-icon" slot="media" /> -->
             </ListInput>
+            <!-- onInput={(e) => (last_name = e.target.value)}
+            onChange={() => {
+                console.log(last_name)
+            }} -->
 
             <ListInput
                 label="E-mail"
@@ -157,14 +159,14 @@
                 validate
                 placeholder="Your e-mail"
                 clearButton
-                value={email}
-                onInput={(e) => (email = e.target.value)}
-                onChange={() => {
-                    console.log(email)
-                }}
+                bind:value={email}
             >
                 <!-- <i class="icon edit-list-icon" slot="media" /> -->
             </ListInput>
+            <!-- onInput={(e) => (email = e.target.value)}
+                onChange={() => {
+                    console.log(email)
+                }} -->
 
             <ListInput
                 label="Birthdate"
@@ -224,14 +226,14 @@
                 type="text"
                 placeholder="First Name"
                 clearButton
-                value={first_name}
-                onInput={(e) => (first_name = e.target.value)}
-                onChange={() => {
-                    console.log(first_name)
-                }}
+                bind:value={first_name}
             >
                 <!-- <i class="icon edit-list-icon" slot="media" /> -->
             </ListInput>
+            <!-- onInput={(e) => (first_name = e.target.value)}
+                onChange={() => {
+                    console.log(first_name)
+                }} -->
 
             <ListInput
                 label="Last Name"
@@ -239,11 +241,7 @@
                 type="text"
                 placeholder="Last Name"
                 clearButton
-                value={last_name}
-                onInput={(e) => (last_name = e.target.value)}
-                onChange={() => {
-                    console.log(last_name)
-                }}
+                bind:value={last_name}
             >
                 <!-- <i class="icon edit-list-icon" slot="media" /> -->
             </ListInput>
@@ -255,11 +253,7 @@
                 validate
                 placeholder="Your e-mail"
                 clearButton
-                value={email}
-                onInput={(e) => (email = e.target.value)}
-                onChange={() => {
-                    console.log(email)
-                }}
+                bind:value={email}
             >
                 <!-- <i class="icon edit-list-icon" slot="media" /> -->
             </ListInput>

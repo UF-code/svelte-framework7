@@ -53,10 +53,10 @@
 </script>
 
 <Block strong>
-    <Button fill round popupOpen=".demo-popup-swipe">Add Customer</Button>
+    <Button fill round popupOpen=".add-popup-swipe">Add Customer</Button>
 </Block>
 
-<Popup class="demo-popup-swipe" swipeToClose>
+<Popup class="add-popup-swipe" swipeToClose>
     <Page>
         <Navbar title="Add New Customer">
             <NavRight>
@@ -71,11 +71,7 @@
                 type="text"
                 placeholder="First Name"
                 clearButton
-                value={first_name}
-                onInput={(e) => (first_name = e.target.value)}
-                onChange={() => {
-                    console.log(first_name)
-                }}
+                bind:value={first_name}
             />
 
             <ListInput
@@ -84,11 +80,7 @@
                 type="text"
                 placeholder="Last Name"
                 clearButton
-                value={last_name}
-                onInput={(e) => (last_name = e.target.value)}
-                onChange={() => {
-                    console.log(last_name)
-                }}
+                bind:value={last_name}
             />
 
             <ListInput
@@ -97,12 +89,8 @@
                 type="email"
                 validate
                 placeholder="Your e-mail"
-                value={email}
                 clearButton
-                onInput={(e) => (email = e.target.value)}
-                onChange={() => {
-                    console.log(email)
-                }}
+                bind:value={email}
             />
 
             <ListInput
@@ -127,13 +115,13 @@
                 value={birthdate}
                 placeholder="Please choose..."
             >
-                <i class="icon demo-list-icon" slot="media" />
+                <i class="icon add-list-icon" slot="media" />
             </ListInput> -->
             <Button
                 fill
                 round
                 small
-                popupClose=".demo-popup-swipe"
+                popupClose=".add-popup-swipe"
                 on:click={() => {
                     console.log(first_name)
                     console.log(last_name)
