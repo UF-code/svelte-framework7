@@ -103,10 +103,15 @@
                     header: true,
                     footer: true,
                     dateFormat: 'MM dd yyyy',
-                }}
-                onCalendarChange={(date_value) => {
-                    birthdate = date_value
-                    console.log(birthdate[0])
+                    on: {
+                        opened: function () {
+                            console.log(birthdate)
+                        },
+                        calendarChange: (v) => {
+                            birthdate = v.value[0]
+                            console.log(v.value)
+                        },
+                    },
                 }}
             />
             <!-- <ListInput

@@ -1,22 +1,5 @@
 <script>
-    import {
-        Page,
-        Panel,
-        View,
-        Segmented,
-        Button,
-        List,
-        ListItem,
-        Navbar,
-        NavRight,
-        NavTitle,
-        NavTitleLarge,
-        Link,
-        Toolbar,
-        Block,
-        Icon,
-        BlockTitle,
-    } from 'framework7-svelte'
+    import { Page, Navbar, NavRight, Link } from 'framework7-svelte'
     import 'framework7-icons'
 
     import AddCustomer from '../components/AddCustomer.svelte'

@@ -1,4 +1,6 @@
 <script>
+    import { value } from 'dom7'
+
     import {
         Navbar,
         BlockTitle,
@@ -18,7 +20,8 @@
     } from 'framework7-svelte'
     import axios from '../js/axios.js'
     import { store_customers } from '../js/customer_store.js'
-
+    let test_date = new Date('2/1/22').getDate()
+    console.log(test_date)
     let first_name, last_name, email, birthdate, id
     // let fullname = ''
 
@@ -54,6 +57,9 @@
                 current_customer.last_name = last_name
                 current_customer.email = email
                 current_customer.birthdate = birthdate
+                console.log(`${birthdate.getFullYear()}`)
+                console.log(`${birthdate.getMonth() + 1}`)
+                console.log(`${birthdate.getDate()}`)
 
                 store_customers.set($store_customers)
             })
@@ -147,10 +153,6 @@
             >
                 <!-- <i class="icon edit-list-icon" slot="media" /> -->
             </ListInput>
-            <!-- onInput={(e) => (last_name = e.target.value)}
-            onChange={() => {
-                console.log(last_name)
-            }} -->
 
             <ListInput
                 label="E-mail"
@@ -163,10 +165,6 @@
             >
                 <!-- <i class="icon edit-list-icon" slot="media" /> -->
             </ListInput>
-            <!-- onInput={(e) => (email = e.target.value)}
-                onChange={() => {
-                    console.log(email)
-                }} -->
 
             <ListInput
                 label="Birthdate"
@@ -178,10 +176,31 @@
                     header: true,
                     footer: true,
                     dateFormat: 'MM dd yyyy',
-                }}
-                onCalendarChange={(date_value) => {
-                    birthdate = date_value
-                    console.log(birthdate[0])
+                    setValue: [test_date],
+                    on: {
+                        calendarInit: () => {
+                            console.log(birthdate)
+                        },
+                        calendarChange: (v) => {
+                            console.log(v)
+                            birthdate = v.value[0]
+                            console.log(v.value)
+                        },
+                    },
+                    monthNames: [
+                        'Ocak',
+                        'February',
+                        'March',
+                        'April',
+                        'May',
+                        'June',
+                        'July',
+                        'August',
+                        'September',
+                        'October',
+                        'November',
+                        'December',
+                    ],
                 }}
             />
             <!-- 
@@ -268,10 +287,6 @@
                     header: true,
                     footer: true,
                     dateFormat: 'MM dd yyyy',
-                }}
-                onCalendarChange={(date_value) => {
-                    birthdate = date_value
-                    console.log(birthdate[0])
                 }}
             />
             <Button
