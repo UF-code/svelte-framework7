@@ -1,14 +1,9 @@
 <script>
-    import { value } from 'dom7'
-
+    // FRAMEWORK7 COMPONENTS
     import {
         Navbar,
-        BlockTitle,
         List,
         ListItem,
-        SkeletonBlock,
-        Card,
-        Block,
         Row,
         Col,
         Button,
@@ -18,22 +13,35 @@
         Link,
         ListInput,
     } from 'framework7-svelte'
-    import AddCustomer from './AddCustomer.svelte'
+    // LIFECYCLE METHODS
     import { onMount } from 'svelte'
+    // CUSTOM COMPONENTS
+    import AddCustomer from './AddCustomer.svelte'
+    // FETCHING DATA FROM CUSTOM API
     import axios from '../js/axios.js'
+    // STORING REACTIVE DATA IN STORE CUSTOMERS
     import { store_customers } from '../js/customer_store.js'
 
+    // DEFINING STORE CUSTOMERS
+    $: test_store_customers = []
+
+    // FETCHING DATA FROM API DURING MOUNT ALL COMPONENT
     onMount(() => {
         axios
             .get(`/getAllCustomers`)
             .then((res) => {
                 console.log(res)
+                console.log(res.data)
                 store_customers.set(res.data)
+                test_store_customers = [...res.data]
+                console.log('***********************')
+                console.log(test_store_customers)
             })
             .catch((err) => {
                 console.error(err)
             })
     })
+    console.log(test_store_customers)
 
     let padToTwo = (number) => (number <= 99 ? `0${number}`.slice(-2) : number)
     let test_date = new Date('2/1/22').getDate()
@@ -65,7 +73,9 @@
     //     console.log('Full Name', fullname)
     // }
     let filter_same_id = (customer_id_) =>
-        $store_customers.filter((customer) => customer.id == customer_id_)[0]
+        test_store_customers.filter(
+            (customer) => customer.id == customer_id_
+        )[0]
 
     const handleEdit = (id_) => {
         let current_customer = filter_same_id(id_)
@@ -99,7 +109,8 @@
                 // console.log(`${padToTwo(birthdate.getMonth() + 1)}`)
                 // console.log(`${padToTwo(birthdate.getDate())}`)
 
-                store_customers.set($store_customers)
+                // store_customers.set($store_customers)
+                test_store_customers = [...test_store_customers]
             })
             .catch((err) => {
                 console.error(err)
@@ -115,7 +126,9 @@
         birthdate = current_customer.birthdate
     }
     const deleteCustomer = () => {
-        let newlist = $store_customers.filter((customer) => customer.id != id)
+        let newlist = test_store_customers.filter(
+            (customer) => customer.id != id
+        )
         console.log(newlist)
 
         axios
@@ -124,7 +137,7 @@
                 console.log(res)
                 console.log(res.data)
 
-                store_customers.set(newlist)
+                test_store_customers = [...newlist]
             })
             .catch((err) => {
                 console.error(err)
@@ -135,7 +148,7 @@
 <AddCustomer />
 
 <List mediaList>
-    {#each $store_customers as customer}
+    {#each test_store_customers as customer}
         <ListItem title={`Customer ID: ${customer.id}  `}>
             <p>Full Name: {customer.first_name} {customer.last_name}</p>
             <p>Email: {customer.email}</p>

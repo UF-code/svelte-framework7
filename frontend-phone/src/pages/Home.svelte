@@ -1,24 +1,11 @@
 <script>
+    // FRAMEWORK7 COMPONENTS
     import { Page, Navbar, NavRight, Link } from 'framework7-svelte'
+    // FRAMEWORK7 ICONS
     import 'framework7-icons'
 
-    import AddCustomer from '../components/AddCustomer.svelte'
+    // CUSTOM COMPONENTS
     import CustomerTable from '../components/CustomerTable.svelte'
-    import { onMount } from 'svelte'
-    import axios from '../js/axios.js'
-    import { store_customers } from '../js/customer_store'
-
-    onMount(() => {
-        axios
-            .get(`/getAllCustomers`)
-            .then((res) => {
-                console.log(res)
-                store_customers.set(res.data)
-            })
-            .catch((err) => {
-                console.error(err)
-            })
-    })
 </script>
 
 <Page name="home">
