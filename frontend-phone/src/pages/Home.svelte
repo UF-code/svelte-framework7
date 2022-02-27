@@ -29,8 +29,5 @@
             </Link>
         </NavRight>
     </Navbar>
-
-    <AddCustomer />
-
     <CustomerTable />
 </Page>

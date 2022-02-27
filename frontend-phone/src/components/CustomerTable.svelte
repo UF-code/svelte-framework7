@@ -18,11 +18,46 @@
         Link,
         ListInput,
     } from 'framework7-svelte'
+    import AddCustomer from './AddCustomer.svelte'
+    import { onMount } from 'svelte'
     import axios from '../js/axios.js'
     import { store_customers } from '../js/customer_store.js'
+
+    onMount(() => {
+        axios
+            .get(`/getAllCustomers`)
+            .then((res) => {
+                console.log(res)
+                store_customers.set(res.data)
+            })
+            .catch((err) => {
+                console.error(err)
+            })
+    })
+
+    let padToTwo = (number) => (number <= 99 ? `0${number}`.slice(-2) : number)
     let test_date = new Date('2/1/22').getDate()
     console.log(test_date)
     let first_name, last_name, email, birthdate, id
+
+    // let test_customer = {
+    //     first: '',
+    //     last: '',
+    // }
+
+    // $: test_store = {
+    //     first: first_name,
+    //     last: last_name,
+    // }
+    // $: {
+    //     console.log(first + ' ** ' + last)
+    // }
+
+    // console.log(test_customer)
+    // test_customer.first = 'igor'
+    // test_customer.last = 'testikov'
+    // console.log(test_customer)
+
     // let fullname = ''
 
     // $: {
@@ -56,10 +91,13 @@
                 current_customer.first_name = first_name
                 current_customer.last_name = last_name
                 current_customer.email = email
-                current_customer.birthdate = birthdate
-                console.log(`${birthdate.getFullYear()}`)
-                console.log(`${birthdate.getMonth() + 1}`)
-                console.log(`${birthdate.getDate()}`)
+                current_customer.birthdate = `${birthdate.getFullYear()}-${padToTwo(
+                    birthdate.getMonth() + 1
+                )}-${padToTwo(birthdate.getDate())}`
+
+                // console.log(`${birthdate.getFullYear()}`)
+                // console.log(`${padToTwo(birthdate.getMonth() + 1)}`)
+                // console.log(`${padToTwo(birthdate.getDate())}`)
 
                 store_customers.set($store_customers)
             })
@@ -93,6 +131,8 @@
             })
     }
 </script>
+
+<AddCustomer />
 
 <List mediaList>
     {#each $store_customers as customer}
@@ -176,7 +216,6 @@
                     header: true,
                     footer: true,
                     dateFormat: 'MM dd yyyy',
-                    setValue: [test_date],
                     on: {
                         calendarInit: () => {
                             console.log(birthdate)
