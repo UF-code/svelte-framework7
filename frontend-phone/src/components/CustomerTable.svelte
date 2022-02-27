@@ -18,8 +18,6 @@
     // STORING REACTIVE DATA IN STORE CUSTOMERS
     import { store_customers } from '../js/customer_store.js'
 
-    let padToTwo = (number) => (number <= 99 ? `0${number}`.slice(-2) : number)
-
     // CUSTOMER
     $: customer = {
         id: '',
@@ -29,80 +27,51 @@
         birthdate: '',
     }
 
-    let filter_same_id = (customer_id_) =>
-        $store_customers.filter((customer) => customer.id == customer_id_)[0]
+    // USEFUL METHODS //
+    let padToTwo = (number) => (number <= 99 ? `0${number}`.slice(-2) : number)
 
-    // let update_customer =
+    let find_customer = (customer_id) =>
+        $store_customers.find((customer) => customer.id === customer_id)
+    // USEFUL METHODS //
 
-    const handleEdit = (id_) => {
-        let current_customer = filter_same_id(id_)
+    // SETTING POPUP VARIABLES
+    const handleData = (id_) => {
+        let current_customer = find_customer(id_)
         customer.id = current_customer.id
         customer.first_name = current_customer.first_name
         customer.last_name = current_customer.last_name
         customer.email = current_customer.email
         customer.birthdate = current_customer.birthdate
-
-        console.log(`Handle Edit ID: ${id_}`)
     }
 
+    // EDITING CUSTOMER
     const editCustomer = () => {
         axios
             .put(`/updateCustomer/${customer.id}`, customer)
             .then(() => {
-                store_customers.update((currentCustomers) => {
-                    let customer_ = currentCustomers.find(
-                        (cst) => cst.id === customer.id
-                    )
-                    customer_.first_name = customer.first_name
-                    customer_.last_name = customer.last_name
-                    customer_.email = customer.email
-                    customer_.birthdate = `${customer.birthdate.getFullYear()}-${padToTwo(
-                        customer.birthdate.getMonth() + 1
-                    )}-${padToTwo(customer.birthdate.getDate())}`
+                let current_customer = find_customer(customer.id)
+                current_customer.first_name = customer.first_name
+                current_customer.last_name = customer.last_name
+                current_customer.email = customer.email
+                current_customer.birthdate = `${customer.birthdate.getFullYear()}-${padToTwo(
+                    customer.birthdate.getMonth() + 1
+                )}-${padToTwo(customer.birthdate.getDate())}`
 
-                    // currentCustomers.map((customer_) => {
-                    //     if (customer_.id == customer.id) {
-                    //         customer_.first_name = customer.first_name
-                    //         customer_.last_name = customer.last_name
-                    //         customer_.email = customer.email
-                    //         customer_.birthdate = `${customer.birthdate.getFullYear()}-${padToTwo(
-                    //             customer.birthdate.getMonth() + 1
-                    //         )}-${padToTwo(customer.birthdate.getDate())}`
-                    //     }
-                    // })
-
-                    console.log(currentCustomers)
-
-                    return [...currentCustomers]
-                })
+                store_customers.set($store_customers)
             })
             .catch((err) => {
                 console.error(err)
             })
     }
 
-    const handleDelete = (id_) => {
-        let current_customer = filter_same_id(id_)
-        customer.id = current_customer.id
-        customer.first_name = current_customer.first_name
-        customer.last_name = current_customer.last_name
-        customer.email = current_customer.email
-        customer.birthdate = current_customer.birthdate
-    }
+    // DELETING CUSTOMER
     const deleteCustomer = () => {
-        let newlist = $store_customers.filter(
-            (customer_) => customer_.id != customer.id
+        let customer_removed = $store_customers.filter(
+            (customer_remove) => customer_remove.id != customer.id
         )
-        console.log(newlist)
-
         axios
             .delete(`/deleteCustomer/${customer.id}`)
-            .then((res) => {
-                console.log(res)
-                console.log(res.data)
-
-                $store_customers = [...newlist]
-            })
+            .then(($store_customers = [...customer_removed]))
             .catch((err) => {
                 console.error(err)
             })
@@ -121,7 +90,7 @@
                         fill
                         round
                         popupOpen=".edit-popup-swipe"
-                        on:click={handleEdit(customer.id)}>Edit</Button
+                        on:click={handleData(customer.id)}>Edit</Button
                     >
                 </Col>
                 <Col>
@@ -129,7 +98,7 @@
                         fill
                         round
                         popupOpen=".delete-popup-swipe"
-                        on:click={handleDelete(customer.id)}>Delete</Button
+                        on:click={handleData(customer.id)}>Delete</Button
                     >
                 </Col>
             </Row>
@@ -137,6 +106,7 @@
     {/each}
 </List>
 
+<!-- EDIT CUSTOMER -->
 <Popup class="edit-popup-swipe" swipeToClose>
     <Page>
         <Navbar title="Edit Customer Hey">

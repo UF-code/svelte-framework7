@@ -9,9 +9,14 @@
         Link,
         List,
         ListInput,
+        Fab,
+        Icon,
+        Toolbar,
     } from 'framework7-svelte'
 
+    // FETCHING DATA FROM CUSTOM API
     import axios from '../js/axios.js'
+    // STORING REACTIVE DATA IN STORE CUSTOMERS
     import { store_customers } from '../js/customer_store.js'
 
     $: customer = {
@@ -21,7 +26,7 @@
         birthdate: '',
     }
 
-    const handleSubmit = () => {
+    const addCustomer = () => {
         axios
             .post('/addCustomer', customer)
             .then((res) => {
@@ -112,13 +117,7 @@
                 round
                 small
                 popupClose=".add-popup-swipe"
-                on:click={() => {
-                    console.log(customer.first_name)
-                    console.log(customer.last_name)
-                    console.log(customer.email)
-                    console.log(customer.birthdate)
-                    handleSubmit()
-                }}>Add Customer</Button
+                on:click={addCustomer}>Add Customer</Button
             >
         </List>
 

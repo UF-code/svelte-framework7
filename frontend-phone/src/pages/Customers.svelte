@@ -27,14 +27,11 @@
 
 <Page name="customers">
     <!-- CUSTOMERS NAVBAR -->
-    <Navbar title="Customers" backLink="Back">
-        <NavRight>
-            <!-- <Link icon="icon-bars" panelOpen="right" /> -->
-        </NavRight>
-    </Navbar>
+    <Navbar title="Customers" backLink="Back" />
 
     <!-- ADD CUSTOMER BUTTON -->
     <AddCustomer />
+
     <!-- CUSTOMER TABLE -->
     <CustomersTable />
 </Page>
