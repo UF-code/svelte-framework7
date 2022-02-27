@@ -13,104 +13,57 @@
         Link,
         ListInput,
     } from 'framework7-svelte'
-    // LIFECYCLE METHODS
-    import { onMount } from 'svelte'
-    // CUSTOM COMPONENTS
-    import AddCustomer from './AddCustomer.svelte'
+
     // FETCHING DATA FROM CUSTOM API
     import axios from '../js/axios.js'
     // STORING REACTIVE DATA IN STORE CUSTOMERS
     import { store_customers } from '../js/customer_store.js'
 
-    // DEFINING STORE CUSTOMERS
-    $: test_store_customers = []
-
-    // FETCHING DATA FROM API DURING MOUNT ALL COMPONENT
-    onMount(() => {
-        axios
-            .get(`/getAllCustomers`)
-            .then((res) => {
-                console.log(res)
-                console.log(res.data)
-                store_customers.set(res.data)
-                test_store_customers = [...res.data]
-                console.log('***********************')
-                console.log(test_store_customers)
-            })
-            .catch((err) => {
-                console.error(err)
-            })
-    })
-    console.log(test_store_customers)
-
     let padToTwo = (number) => (number <= 99 ? `0${number}`.slice(-2) : number)
-    let test_date = new Date('2/1/22').getDate()
-    console.log(test_date)
     let first_name, last_name, email, birthdate, id
 
-    // let test_customer = {
-    //     first: '',
-    //     last: '',
-    // }
+    // CUSTOMER
+    $: customer = {
+        id: '',
+        first_name: '',
+        last_name: '',
+        email: '',
+        birthdate: '',
+    }
 
-    // $: test_store = {
-    //     first: first_name,
-    //     last: last_name,
-    // }
-    // $: {
-    //     console.log(first + ' ** ' + last)
-    // }
-
-    // console.log(test_customer)
-    // test_customer.first = 'igor'
-    // test_customer.last = 'testikov'
-    // console.log(test_customer)
-
-    // let fullname = ''
-
-    // $: {
-    //     fullname = first_name + ' ' + last_name
-    //     console.log('Full Name', fullname)
-    // }
     let filter_same_id = (customer_id_) =>
-        test_store_customers.filter(
-            (customer) => customer.id == customer_id_
-        )[0]
+        $store_customers.filter((customer) => customer.id == customer_id_)[0]
+
+    // let update_customer =
 
     const handleEdit = (id_) => {
         let current_customer = filter_same_id(id_)
-        id = current_customer.id
-        first_name = current_customer.first_name
-        last_name = current_customer.last_name
-        email = current_customer.email
-        birthdate = current_customer.birthdate
+        customer.id = current_customer.id
+        customer.first_name = current_customer.first_name
+        customer.last_name = current_customer.last_name
+        customer.email = current_customer.email
+        customer.birthdate = current_customer.birthdate
 
         console.log(`Handle Edit ID: ${id_}`)
     }
 
     const editCustomer = () => {
         axios
-            .put(`/updateCustomer/${id}`, {
-                first_name: first_name,
-                last_name: last_name,
-                email: email,
-                birthdate: birthdate,
-            })
-            .then((res) => {
-                let current_customer = filter_same_id(id)
-                current_customer.first_name = first_name
-                current_customer.last_name = last_name
-                current_customer.email = email
-                current_customer.birthdate = `${birthdate.getFullYear()}-${padToTwo(
-                    birthdate.getMonth() + 1
-                )}-${padToTwo(birthdate.getDate())}`
+            .put(`/updateCustomer/${customer.id}`, customer)
+            .then(() => {
+                store_customers.update((currentCustomers) => {
+                    currentCustomers.map((customer_) => {
+                        if (customer_.id == customer.id) {
+                            customer_.first_name = customer.first_name
+                            customer_.last_name = customer.last_name
+                            customer_.email = customer.email
+                            customer_.birthdate = customer.birthdate
+                        }
+                    })
+                    console.log(currentCustomers)
 
-                // console.log(`${birthdate.getFullYear()}`)
-                // console.log(`${padToTwo(birthdate.getMonth() + 1)}`)
-                // console.log(`${padToTwo(birthdate.getDate())}`)
-
-                // store_customers.set($store_customers)
-                test_store_customers = [...test_store_customers]
+                    return [...currentCustomers]
+                })
             })
             .catch((err) => {
                 console.error(err)
@@ -119,25 +72,25 @@
 
     const handleDelete = (id_) => {
         let current_customer = filter_same_id(id_)
-        id = current_customer.id
-        first_name = current_customer.first_name
-        last_name = current_customer.last_name
-        email = current_customer.email
-        birthdate = current_customer.birthdate
+        customer.id = current_customer.id
+        customer.first_name = current_customer.first_name
+        customer.last_name = current_customer.last_name
+        customer.email = current_customer.email
+        customer.birthdate = current_customer.birthdate
     }
     const deleteCustomer = () => {
-        let newlist = test_store_customers.filter(
-            (customer) => customer.id != id
+        let newlist = $store_customers.filter(
+            (customer_) => customer_.id != customer.id
         )
         console.log(newlist)
 
         axios
-            .delete(`/deleteCustomer/${id}`)
+            .delete(`/deleteCustomer/${customer.id}`)
             .then((res) => {
                 console.log(res)
                 console.log(res.data)
 
-                test_store_customers = [...newlist]
+                $store_customers = [...newlist]
             })
             .catch((err) => {
                 console.error(err)
@@ -145,10 +98,8 @@
     }
 </script>
 
-<AddCustomer />
-
 <List mediaList>
-    {#each test_store_customers as customer}
+    {#each $store_customers as customer}
         <ListItem title={`Customer ID: ${customer.id}  `}>
             <p>Full Name: {customer.first_name} {customer.last_name}</p>
             <p>Email: {customer.email}</p>
@@ -190,7 +141,7 @@
                 type="text"
                 placeholder="First Name"
                 clearButton
-                bind:value={first_name}
+                bind:value={customer.first_name}
             >
                 <!-- <i class="icon edit-list-icon" slot="media" /> -->
             </ListInput>
@@ -202,7 +153,7 @@
                 type="text"
                 placeholder="Last Name"
                 clearButton
-                bind:value={last_name}
+                bind:value={customer.last_name}
             >
                 <!-- <i class="icon edit-list-icon" slot="media" /> -->
             </ListInput>
@@ -214,7 +165,7 @@
                 validate
                 placeholder="Your e-mail"
                 clearButton
-                bind:value={email}
+                bind:value={customer.email}
             >
                 <!-- <i class="icon edit-list-icon" slot="media" /> -->
             </ListInput>
@@ -235,7 +186,7 @@
                         },
                         calendarChange: (v) => {
                             console.log(v)
-                            birthdate = v.value[0]
+                            customer.birthdate = v.value[0]
                             console.log(v.value)
                         },
                     },
@@ -297,7 +248,7 @@
                 type="text"
                 placeholder="First Name"
                 clearButton
-                bind:value={first_name}
+                bind:value={customer.first_name}
             >
                 <!-- <i class="icon edit-list-icon" slot="media" /> -->
             </ListInput>
@@ -312,7 +263,7 @@
                 type="text"
                 placeholder="Last Name"
                 clearButton
-                bind:value={last_name}
+                bind:value={customer.last_name}
             >
                 <!-- <i class="icon edit-list-icon" slot="media" /> -->
             </ListInput>
@@ -324,7 +275,7 @@
                 validate
                 placeholder="Your e-mail"
                 clearButton
-                bind:value={email}
+                bind:value={customer.email}
             >
                 <!-- <i class="icon edit-list-icon" slot="media" /> -->
             </ListInput>

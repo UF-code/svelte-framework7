@@ -1,20 +1,29 @@
 <script>
     // FRAMEWORK7 COMPONENTS
-    import { Page, Navbar, NavRight, Link } from 'framework7-svelte'
+    import {
+        Page,
+        Navbar,
+        NavRight,
+        Link,
+        ListItem,
+        AccordionContent,
+        List,
+        NavLeft,
+        Panel,
+        View,
+        Block,
+    } from 'framework7-svelte'
     // FRAMEWORK7 ICONS
     import 'framework7-icons'
-
-    // CUSTOM COMPONENTS
-    import CustomerTable from '../components/CustomerTable.svelte'
 </script>
 
 <Page name="home">
-    <Navbar title="uf-code">
+    <Navbar>
+        <NavLeft><b>uf-code</b></NavLeft>
+
         <NavRight>
-            <Link icon="icon-bars" href="/about">
-                <i class="f7-icons" color="">line_horizontal_3</i>
-            </Link>
+            <Link icon="icon-bars" href="/customers">Customers</Link>
+            <Link icon="icon-bars" href="/about">About</Link>
         </NavRight>
     </Navbar>
-    <CustomerTable />
 </Page>

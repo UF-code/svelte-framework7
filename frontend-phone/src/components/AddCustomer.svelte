@@ -10,11 +10,16 @@
         List,
         ListInput,
     } from 'framework7-svelte'
+    export let test_store_customers
     import axios from '../js/axios.js'
     import { store_customers } from '../js/customer_store.js'
 
     let first_name, last_name, email, birthdate
     let customer
+
+    console.log('test_store_customers')
+    console.log(test_store_customers)
+    console.log('test_store_customers')
 
     const handleSubmit = () => {
         axios
@@ -39,6 +44,18 @@
                         },
                     ]
                 })
+
+                test_store_customers = [
+                    ...test_store_customers,
+                    {
+                        id: customer.id,
+                        first_name: customer.first_name,
+                        last_name: customer.last_name,
+                        email: customer.email,
+                        birthdate: customer.birthdate,
+                    },
+                ]
+                console.log(test_store_customers)
             })
             .then(() => {
                 first_name = ''
