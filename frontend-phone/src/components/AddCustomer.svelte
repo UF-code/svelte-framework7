@@ -10,58 +10,30 @@
         List,
         ListInput,
     } from 'framework7-svelte'
-    export let test_store_customers
+
     import axios from '../js/axios.js'
     import { store_customers } from '../js/customer_store.js'
 
-    let first_name, last_name, email, birthdate
-    let customer
-
-    console.log('test_store_customers')
-    console.log(test_store_customers)
-    console.log('test_store_customers')
+    $: customer = {
+        first_name: '',
+        last_name: '',
+        email: '',
+        birthdate: '',
+    }
 
     const handleSubmit = () => {
         axios
-            .post('/addCustomer', {
-                first_name: first_name,
-                last_name: last_name,
-                email: email,
-                birthdate: birthdate,
-            })
+            .post('/addCustomer', customer)
             .then((res) => {
-                customer = res.data
-
                 store_customers.update((currentCustomers) => {
-                    return [
-                        ...currentCustomers,
-                        {
-                            id: customer.id,
-                            first_name: customer.first_name,
-                            last_name: customer.last_name,
-                            email: customer.email,
-                            birthdate: customer.birthdate,
-                        },
-                    ]
+                    return [...currentCustomers, res.data]
                 })
-
-                test_store_customers = [
-                    ...test_store_customers,
-                    {
-                        id: customer.id,
-                        first_name: customer.first_name,
-                        last_name: customer.last_name,
-                        email: customer.email,
-                        birthdate: customer.birthdate,
-                    },
-                ]
-                console.log(test_store_customers)
             })
             .then(() => {
-                first_name = ''
-                last_name = ''
-                email = ''
-                birthdate = ''
+                customer.first_name = ''
+                customer.last_name = ''
+                customer.email = ''
+                customer.birthdate = ''
             })
             .catch((err) => {
                 console.error(err)
@@ -88,7 +60,7 @@
                 type="text"
                 placeholder="First Name"
                 clearButton
-                bind:value={first_name}
+                bind:value={customer.first_name}
             />
 
             <ListInput
@@ -97,7 +69,7 @@
                 type="text"
                 placeholder="Last Name"
                 clearButton
-                bind:value={last_name}
+                bind:value={customer.last_name}
             />
 
             <ListInput
@@ -107,7 +79,7 @@
                 validate
                 placeholder="Your e-mail"
                 clearButton
-                bind:value={email}
+                bind:value={customer.email}
             />
 
             <ListInput
@@ -121,12 +93,8 @@
                     footer: true,
                     dateFormat: 'MM dd yyyy',
                     on: {
-                        opened: function () {
-                            console.log(birthdate)
-                        },
                         calendarChange: (v) => {
-                            birthdate = v.value[0]
-                            console.log(v.value)
+                            customer.birthdate = v.value[0]
                         },
                     },
                 }}
@@ -145,10 +113,10 @@
                 small
                 popupClose=".add-popup-swipe"
                 on:click={() => {
-                    console.log(first_name)
-                    console.log(last_name)
-                    console.log(email)
-                    console.log(birthdate)
+                    console.log(customer.first_name)
+                    console.log(customer.last_name)
+                    console.log(customer.email)
+                    console.log(customer.birthdate)
                     handleSubmit()
                 }}>Add Customer</Button
             >

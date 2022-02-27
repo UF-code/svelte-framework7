@@ -13,14 +13,12 @@
         Link,
         ListInput,
     } from 'framework7-svelte'
-
     // FETCHING DATA FROM CUSTOM API
     import axios from '../js/axios.js'
     // STORING REACTIVE DATA IN STORE CUSTOMERS
     import { store_customers } from '../js/customer_store.js'
 
     let padToTwo = (number) => (number <= 99 ? `0${number}`.slice(-2) : number)
-    let first_name, last_name, email, birthdate, id
 
     // CUSTOMER
     $: customer = {
@@ -52,14 +50,27 @@
             .put(`/updateCustomer/${customer.id}`, customer)
             .then(() => {
                 store_customers.update((currentCustomers) => {
-                    currentCustomers.map((customer_) => {
-                        if (customer_.id == customer.id) {
-                            customer_.first_name = customer.first_name
-                            customer_.last_name = customer.last_name
-                            customer_.email = customer.email
-                            customer_.birthdate = customer.birthdate
-                        }
-                    })
+                    let customer_ = currentCustomers.find(
+                        (cst) => cst.id === customer.id
+                    )
+                    customer_.first_name = customer.first_name
+                    customer_.last_name = customer.last_name
+                    customer_.email = customer.email
+                    customer_.birthdate = `${customer.birthdate.getFullYear()}-${padToTwo(
+                        customer.birthdate.getMonth() + 1
+                    )}-${padToTwo(customer.birthdate.getDate())}`
+
+                    // currentCustomers.map((customer_) => {
+                    //     if (customer_.id == customer.id) {
+                    //         customer_.first_name = customer.first_name
+                    //         customer_.last_name = customer.last_name
+                    //         customer_.email = customer.email
+                    //         customer_.birthdate = `${customer.birthdate.getFullYear()}-${padToTwo(
+                    //             customer.birthdate.getMonth() + 1
+                    //         )}-${padToTwo(customer.birthdate.getDate())}`
+                    //     }
+                    // })
+
                     console.log(currentCustomers)
 
                     return [...currentCustomers]
@@ -142,11 +153,8 @@
                 placeholder="First Name"
                 clearButton
                 bind:value={customer.first_name}
-            >
-                <!-- <i class="icon edit-list-icon" slot="media" /> -->
-            </ListInput>
-            <!-- onInput={(e) => (first_name = e.target.value)} -->
-            <!-- value={first_name} -->
+            />
+
             <ListInput
                 label="Last Name"
                 floatingLabel
@@ -154,9 +162,7 @@
                 placeholder="Last Name"
                 clearButton
                 bind:value={customer.last_name}
-            >
-                <!-- <i class="icon edit-list-icon" slot="media" /> -->
-            </ListInput>
+            />
 
             <ListInput
                 label="E-mail"
@@ -166,9 +172,7 @@
                 placeholder="Your e-mail"
                 clearButton
                 bind:value={customer.email}
-            >
-                <!-- <i class="icon edit-list-icon" slot="media" /> -->
-            </ListInput>
+            />
 
             <ListInput
                 label="Birthdate"
@@ -181,9 +185,6 @@
                     footer: true,
                     dateFormat: 'MM dd yyyy',
                     on: {
-                        calendarInit: () => {
-                            console.log(birthdate)
-                        },
                         calendarChange: (v) => {
                             console.log(v)
                             customer.birthdate = v.value[0]
@@ -206,15 +207,6 @@
                     ],
                 }}
             />
-            <!-- 
-            <ListInput
-                label="Birthday"
-                type="date"
-                value={birthdate}
-                placeholder="Please choose..."
-            >
-                <i class="icon demo-list-icon" slot="media" />
-            </ListInput> -->
 
             <Button
                 fill
@@ -249,13 +241,7 @@
                 placeholder="First Name"
                 clearButton
                 bind:value={customer.first_name}
-            >
-                <!-- <i class="icon edit-list-icon" slot="media" /> -->
-            </ListInput>
-            <!-- onInput={(e) => (first_name = e.target.value)}
-                onChange={() => {
-                    console.log(first_name)
-                }} -->
+            />
 
             <ListInput
                 label="Last Name"
@@ -264,9 +250,7 @@
                 placeholder="Last Name"
                 clearButton
                 bind:value={customer.last_name}
-            >
-                <!-- <i class="icon edit-list-icon" slot="media" /> -->
-            </ListInput>
+            />
 
             <ListInput
                 label="E-mail"
@@ -276,9 +260,7 @@
                 placeholder="Your e-mail"
                 clearButton
                 bind:value={customer.email}
-            >
-                <!-- <i class="icon edit-list-icon" slot="media" /> -->
-            </ListInput>
+            />
 
             <ListInput
                 label="Birthdate"
