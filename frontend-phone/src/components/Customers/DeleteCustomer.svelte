@@ -73,15 +73,6 @@
                 on:click={() => dispatch('delete1', customer)}
                 >Delete Customer</Button
             >
-
-            <!-- <Button
-                fill
-                round
-                small
-                popupClose=".popup-swipe"
-                on:click={() => dispatch('edit1', customer)}
-                >Edit Customer</Button
-            > -->
         </List>
 
         <div

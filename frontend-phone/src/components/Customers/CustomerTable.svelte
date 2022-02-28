@@ -1,18 +1,6 @@
 <script>
     // FRAMEWORK7 COMPONENTS
-    import {
-        Navbar,
-        List,
-        ListItem,
-        Row,
-        Col,
-        Button,
-        Popup,
-        Page,
-        NavRight,
-        Link,
-        ListInput,
-    } from 'framework7-svelte'
+    import { List, ListItem, Row, Col, Button } from 'framework7-svelte'
     // FETCHING DATA FROM CUSTOM API
     import axios from '../../js/axios.js'
     // STORING REACTIVE DATA IN STORE CUSTOMERS
@@ -127,6 +115,7 @@
         deleteCustomer()
     }}
 />
+
 <!-- <AddEditModal /> -->
 
 <!-- EDIT CUSTOMER -->
