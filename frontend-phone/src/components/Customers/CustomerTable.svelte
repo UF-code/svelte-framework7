@@ -7,7 +7,7 @@
     import { store_customers } from '../../js/customer_store.js'
     // CUSTOM COMPONENTS
     import AddEditModal from './AddEditModal.svelte'
-    import DeleteCustomer from './DeleteCustomer.svelte'
+    import DeleteModal from './DeleteModal.svelte'
 
     // CUSTOMER
     $: customer = {
@@ -108,7 +108,7 @@
     }}
 />
 
-<DeleteCustomer
+<DeleteModal
     {customer}
     on:delete1={(e) => {
         console.log(e.detail)
