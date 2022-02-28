@@ -4,8 +4,8 @@
     // LIFECYCLE METHOD
     import { onMount } from 'svelte'
     // CUSTOM COMPONENTS
-    import AddCustomer from '../components/AddCustomer.svelte'
-    import CustomersTable from '../components/CustomerTable.svelte'
+    import AddCustomer from '../components/Customers/AddCustomer.svelte'
+    import CustomersTable from '../components/Customers/CustomerTable.svelte'
     // AXIOS
     import axios from '../js/axios.js'
 
@@ -31,7 +31,15 @@
 
     <!-- ADD CUSTOMER BUTTON -->
     <AddCustomer />
-
     <!-- CUSTOMER TABLE -->
     <CustomersTable />
 </Page>
+
+<!--
+/AddEditModal.svelete
+
+products
+/products.svelte
+/AddEditModal.svelete
+
+ "AddEditModal" -->

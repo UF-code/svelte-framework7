@@ -19,7 +19,7 @@
     // STORING REACTIVE DATA IN STORE CUSTOMERS
     import { store_customers } from '../js/customer_store.js'
 
-    $: customer = {
+    let customer = {
         first_name: '',
         last_name: '',
         email: '',

@@ -14,12 +14,12 @@
         ListInput,
     } from 'framework7-svelte'
     // FETCHING DATA FROM CUSTOM API
-    import axios from '../js/axios.js'
+    import axios from '../../../js/axios.js'
     // STORING REACTIVE DATA IN STORE CUSTOMERS
-    import { store_customers } from '../js/customer_store.js'
+    import { store_customers } from '../../../js/customer_store.js'
 
     // CUSTOMER
-    $: customer = {
+    let customer = {
         id: '',
         first_name: '',
         last_name: '',
@@ -49,6 +49,7 @@
         axios
             .put(`/updateCustomer/${customer.id}`, customer)
             .then(() => {
+                // customer
                 let current_customer = find_customer(customer.id)
                 current_customer.first_name = customer.first_name
                 current_customer.last_name = customer.last_name
@@ -57,6 +58,7 @@
                     customer.birthdate.getMonth() + 1
                 )}-${padToTwo(customer.birthdate.getDate())}`
 
+                //store_customers[0] = current_customer;
                 store_customers.set($store_customers)
             })
             .catch((err) => {
@@ -109,7 +111,7 @@
 <!-- EDIT CUSTOMER -->
 <Popup class="edit-popup-swipe" swipeToClose>
     <Page>
-        <Navbar title="Edit Customer Hey">
+        <Navbar title="Edit Customer">
             <NavRight>
                 <Link popupClose>Close</Link>
             </NavRight>
