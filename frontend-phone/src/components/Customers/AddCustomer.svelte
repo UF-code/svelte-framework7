@@ -15,9 +15,9 @@
     } from 'framework7-svelte'
 
     // FETCHING DATA FROM CUSTOM API
-    import axios from '../js/axios.js'
+    import axios from '../../js/axios.js'
     // STORING REACTIVE DATA IN STORE CUSTOMERS
-    import { store_customers } from '../js/customer_store.js'
+    import { store_customers } from '../../js/customer_store.js'
 
     let customer = {
         first_name: '',

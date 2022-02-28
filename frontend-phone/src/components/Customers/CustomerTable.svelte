@@ -14,12 +14,15 @@
         ListInput,
     } from 'framework7-svelte'
     // FETCHING DATA FROM CUSTOM API
-    import axios from '../../../js/axios.js'
+    import axios from '../../js/axios.js'
     // STORING REACTIVE DATA IN STORE CUSTOMERS
-    import { store_customers } from '../../../js/customer_store.js'
+    import { store_customers } from '../../js/customer_store.js'
+    // CUSTOM COMPONENTS
+    import AddEditModal from './AddEditModal.svelte'
+    import DeleteCustomer from './DeleteCustomer.svelte'
 
     // CUSTOMER
-    let customer = {
+    $: customer = {
         id: '',
         first_name: '',
         last_name: '',
@@ -54,9 +57,10 @@
                 current_customer.first_name = customer.first_name
                 current_customer.last_name = customer.last_name
                 current_customer.email = customer.email
-                current_customer.birthdate = `${customer.birthdate.getFullYear()}-${padToTwo(
-                    customer.birthdate.getMonth() + 1
-                )}-${padToTwo(customer.birthdate.getDate())}`
+                current_customer.birthdate = customer.birthdate
+                // current_customer.birthdate = `${customer.birthdate.getFullYear()}-${padToTwo(
+                //     customer.birthdate.getMonth() + 1
+                // )}-${padToTwo(customer.birthdate.getDate())}`
 
                 //store_customers[0] = current_customer;
                 store_customers.set($store_customers)
@@ -91,7 +95,7 @@
                     <Button
                         fill
                         round
-                        popupOpen=".edit-popup-swipe"
+                        popupOpen=".popup-swipe"
                         on:click={handleData(customer.id)}>Edit</Button
                     >
                 </Col>
@@ -108,7 +112,25 @@
     {/each}
 </List>
 
+<AddEditModal
+    {customer}
+    on:edit1={(e) => {
+        console.log(e.detail)
+        editCustomer()
+    }}
+/>
+
+<DeleteCustomer
+    {customer}
+    on:delete1={(e) => {
+        console.log(e.detail)
+        deleteCustomer()
+    }}
+/>
+<!-- <AddEditModal /> -->
+
 <!-- EDIT CUSTOMER -->
+<!-- 
 <Popup class="edit-popup-swipe" swipeToClose>
     <Page>
         <Navbar title="Edit Customer">
@@ -194,10 +216,10 @@
             class="display-flex justify-content-center align-items-center"
         />
     </Page>
-</Popup>
+</Popup> -->
 
 <!-- DELETE CUSTOMER -->
-<Popup class="delete-popup-swipe" swipeToClose>
+<!-- <Popup class="delete-popup-swipe" swipeToClose>
     <Page>
         <Navbar title="Edit Customer Hey">
             <NavRight>
@@ -260,4 +282,4 @@
             class="display-flex justify-content-center align-items-center"
         />
     </Page>
-</Popup>
+</Popup> -->
