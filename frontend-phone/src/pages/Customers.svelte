@@ -1,6 +1,6 @@
 <script>
     // FRAMEWORK7 COMPONENTS
-    import { Page, Navbar, NavRight } from 'framework7-svelte'
+    import { Page, Navbar } from 'framework7-svelte'
     // LIFECYCLE METHOD
     import { onMount } from 'svelte'
     // CUSTOM COMPONENTS
@@ -8,20 +8,17 @@
     import CustomersTable from '../components/Customers/CustomerTable.svelte'
     // AXIOS
     import axios from '../js/axios.js'
-
     // STORE CUSTOMERS
     import { store_customers } from '../js/customer_store.js'
 
-    onMount(() => {
-        axios
-            .get(`/getAllCustomers`)
-            .then((res) => {
-                console.log(res.data)
-                store_customers.set(res.data)
-            })
-            .catch((err) => {
-                console.error(err)
-            })
+    onMount(async () => {
+        try {
+            const response = await axios.get('/getAllCustomers')
+
+            store_customers.set(response.data)
+        } catch (error) {
+            console.error(error)
+        }
     })
 </script>
 
@@ -31,15 +28,7 @@
 
     <!-- ADD CUSTOMER BUTTON -->
     <AddCustomer />
+
     <!-- CUSTOMER TABLE -->
     <CustomersTable />
 </Page>
-
-<!--
-/AddEditModal.svelete
-
-products
-/products.svelte
-/AddEditModal.svelete
-
- "AddEditModal" -->

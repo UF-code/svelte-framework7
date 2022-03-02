@@ -14,7 +14,7 @@
     // STORING REACTIVE DATA IN STORE CUSTOMERS
     import { store_customers } from '../../js/customer_store.js'
     // CUSTOM COMPONENTS
-    import AddEditModal from './AddEditModal.svelte'
+    import EditModal from './EditModal.svelte'
     import DeleteModal from './DeleteModal.svelte'
 
     // CUSTOMER
@@ -44,39 +44,34 @@
     }
 
     // EDITING CUSTOMER
-    const editCustomer = () => {
-        axios
-            .put(`/updateCustomer/${customer.id}`, customer)
-            .then(() => {
-                // customer
-                let current_customer = find_customer(customer.id)
-                current_customer.first_name = customer.first_name
-                current_customer.last_name = customer.last_name
-                current_customer.email = customer.email
-                current_customer.birthdate = customer.birthdate
-                // current_customer.birthdate = `${customer.birthdate.getFullYear()}-${padToTwo(
-                //     customer.birthdate.getMonth() + 1
-                // )}-${padToTwo(customer.birthdate.getDate())}`
+    const editCustomer = async () => {
+        try {
+            await axios.put(`/updateCustomer/${customer.id}`, customer)
+            let current_customer = find_customer(customer.id)
+            current_customer.first_name = customer.first_name
+            current_customer.last_name = customer.last_name
+            current_customer.email = customer.email
+            current_customer.birthdate = customer.birthdate
 
-                //store_customers[0] = current_customer;
-                store_customers.set($store_customers)
-            })
-            .catch((err) => {
-                console.error(err)
-            })
+            store_customers.set($store_customers)
+        } catch (error) {
+            console.error(error)
+        }
     }
 
     // DELETING CUSTOMER
-    const deleteCustomer = () => {
+    const deleteCustomer = async () => {
         let customer_removed = $store_customers.filter(
             (customer_remove) => customer_remove.id != customer.id
         )
-        axios
-            .delete(`/deleteCustomer/${customer.id}`)
-            .then(($store_customers = [...customer_removed]))
-            .catch((err) => {
-                console.error(err)
-            })
+
+        try {
+            await axios.delete(`/deleteCustomer/${customer.id}`)
+
+            $store_customers = [...customer_removed]
+        } catch (error) {
+            console.error(error)
+        }
     }
 </script>
 
@@ -119,7 +114,7 @@
     {/each}
 </List>
 
-<AddEditModal
+<EditModal
     {customer}
     on:edit_customer={(e) => {
         console.log(e.detail)
@@ -134,160 +129,3 @@
         deleteCustomer()
     }}
 />
-
-<!-- <AddEditModal /> -->
-
-<!-- EDIT CUSTOMER -->
-<!-- 
-<Popup class="edit-popup-swipe" swipeToClose>
-    <Page>
-        <Navbar title="Edit Customer">
-            <NavRight>
-                <Link popupClose>Close</Link>
-            </NavRight>
-        </Navbar>
-
-        <List noHairlinesMd>
-            <ListInput
-                label="First Name"
-                floatingLabel
-                type="text"
-                placeholder="First Name"
-                clearButton
-                bind:value={customer.first_name}
-            />
-
-            <ListInput
-                label="Last Name"
-                floatingLabel
-                type="text"
-                placeholder="Last Name"
-                clearButton
-                bind:value={customer.last_name}
-            />
-
-            <ListInput
-                label="E-mail"
-                floatingLabel
-                type="email"
-                validate
-                placeholder="Your e-mail"
-                clearButton
-                bind:value={customer.email}
-            />
-
-            <ListInput
-                label="Birthdate"
-                type="datepicker"
-                placeholder="Select date"
-                readonly
-                calendarParams={{
-                    openIn: 'customModal',
-                    header: true,
-                    footer: true,
-                    dateFormat: 'MM dd yyyy',
-                    on: {
-                        calendarChange: (v) => {
-                            console.log(v)
-                            customer.birthdate = v.value[0]
-                            console.log(v.value)
-                        },
-                    },
-                    monthNames: [
-                        'Ocak',
-                        'February',
-                        'March',
-                        'April',
-                        'May',
-                        'June',
-                        'July',
-                        'August',
-                        'September',
-                        'October',
-                        'November',
-                        'December',
-                    ],
-                }}
-            />
-
-            <Button
-                fill
-                round
-                small
-                popupClose=".edit-popup-swipe"
-                on:click={editCustomer}>Edit Customer</Button
-            >
-        </List>
-
-        <div
-            style="height: 100%"
-            class="display-flex justify-content-center align-items-center"
-        />
-    </Page>
-</Popup> -->
-
-<!-- DELETE CUSTOMER -->
-<!-- <Popup class="delete-popup-swipe" swipeToClose>
-    <Page>
-        <Navbar title="Edit Customer Hey">
-            <NavRight>
-                <Link popupClose>Close</Link>
-            </NavRight>
-        </Navbar>
-
-        <List noHairlinesMd>
-            <ListInput
-                label="First Name"
-                floatingLabel
-                type="text"
-                placeholder="First Name"
-                clearButton
-                bind:value={customer.first_name}
-            />
-
-            <ListInput
-                label="Last Name"
-                floatingLabel
-                type="text"
-                placeholder="Last Name"
-                clearButton
-                bind:value={customer.last_name}
-            />
-
-            <ListInput
-                label="E-mail"
-                floatingLabel
-                type="email"
-                validate
-                placeholder="Your e-mail"
-                clearButton
-                bind:value={customer.email}
-            />
-
-            <ListInput
-                label="Birthdate"
-                type="datepicker"
-                placeholder="Select date"
-                readonly
-                calendarParams={{
-                    openIn: 'customModal',
-                    header: true,
-                    footer: true,
-                    dateFormat: 'MM dd yyyy',
-                }}
-            />
-            <Button
-                fill
-                round
-                small
-                popupClose=".delete-popup-swipe"
-                on:click={deleteCustomer}>Delete Customer</Button
-            >
-        </List>
-
-        <div
-            style="height: 100%"
-            class="display-flex justify-content-center align-items-center"
-        />
-    </Page>
-</Popup> -->

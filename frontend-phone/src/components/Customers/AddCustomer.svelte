@@ -15,22 +15,33 @@
         birthdate: '',
     }
 
-    const addCustomer = () => {
-        axios
-            .post('/addCustomer', customer)
-            .then((res) => {
-                store_customers.update((currentCustomers) => {
-                    return [...currentCustomers, res.data]
-                })
+    const handleData = () => {
+        customer.first_name = ''
+        customer.last_name = ''
+        customer.email = ''
+        customer.birthdate = ''
+    }
+
+    const addCustomer = async () => {
+        try {
+            const response = await axios.post('/addCustomer', customer)
+
+            store_customers.update((currentCustomers) => {
+                return [...currentCustomers, response.data]
             })
-            .catch((err) => {
-                console.error(err)
-            })
+        } catch (error) {
+            console.error(error)
+        }
     }
 </script>
 
 <Block strong>
-    <Button fill round popupOpen=".add-popup-swipe">Add Customer</Button>
+    <Button
+        fill
+        round
+        on:click={() => handleData()}
+        popupOpen=".add-popup-swipe">Add Customer</Button
+    >
 </Block>
 
 <AddModal
