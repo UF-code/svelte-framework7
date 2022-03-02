@@ -16,10 +16,10 @@
     export let customer
 </script>
 
-<!-- EDIT CUSTOMER -->
-<Popup class="popup-swipe" swipeToClose>
+<!-- ADD CUSTOMER -->
+<Popup class="add-popup-swipe" swipeToClose>
     <Page>
-        <Navbar title="Edit Customer">
+        <Navbar title="Add Customer">
             <NavRight>
                 <Link popupClose>Close</Link>
             </NavRight>
@@ -92,9 +92,9 @@
                 fill
                 round
                 small
-                popupClose=".popup-swipe"
-                on:click={() => dispatch('edit_customer', customer)}
-                >Edit Customer</Button
+                popupClose=".add-popup-swipe"
+                on:click={() => dispatch('add_customer', customer)}
+                >Add Customer</Button
             >
         </List>
 

@@ -1,6 +1,14 @@
 <script>
     // FRAMEWORK7 COMPONENTS
-    import { List, ListItem, Row, Col, Button } from 'framework7-svelte'
+    import {
+        List,
+        ListItem,
+        Row,
+        Button,
+        Fab,
+        Icon,
+        FabButtons,
+    } from 'framework7-svelte'
     // FETCHING DATA FROM CUSTOM API
     import axios from '../../js/axios.js'
     // STORING REACTIVE DATA IN STORE CUSTOMERS
@@ -79,22 +87,33 @@
             <p>Email: {customer.email}</p>
             <p>Birthdate: {customer.birthdate}</p>
             <Row>
-                <Col>
-                    <Button
-                        fill
-                        round
-                        popupOpen=".popup-swipe"
-                        on:click={handleData(customer.id)}>Edit</Button
-                    >
-                </Col>
-                <Col>
-                    <Button
-                        fill
-                        round
-                        popupOpen=".delete-popup-swipe"
-                        on:click={handleData(customer.id)}>Delete</Button
-                    >
-                </Col>
+                <Fab position="right-top" color="blue" style="top:-33px">
+                    <Icon
+                        ios="f7:ellipsis"
+                        aurora="f7:ellipsis"
+                        md="material:ellipsis"
+                    />
+                    <Icon
+                        ios="f7:ellipsis_vertical"
+                        aurora="f7:ellipsis_vertical"
+                        md="material:ellipsis_vertical"
+                    />
+                    <FabButtons position="bottom">
+                        <Button
+                            text="Edit"
+                            popupOpen=".popup-swipe"
+                            on:click={handleData(customer.id)}
+                            class="fab-close"
+                        />
+                        <Button
+                            style="width:60px; margin-left:-10px;"
+                            text="Delete"
+                            popupOpen=".delete-popup-swipe"
+                            on:click={handleData(customer.id)}
+                            class="fab-close"
+                        />
+                    </FabButtons>
+                </Fab>
             </Row>
         </ListItem>
     {/each}
@@ -102,7 +121,7 @@
 
 <AddEditModal
     {customer}
-    on:edit1={(e) => {
+    on:edit_customer={(e) => {
         console.log(e.detail)
         editCustomer()
     }}
