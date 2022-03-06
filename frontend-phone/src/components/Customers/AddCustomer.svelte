@@ -37,11 +37,8 @@
 </script>
 
 <Block strong>
-    <Button
-        fill
-        round
-        on:click={() => handleData()}
-        popupOpen=".add-popup-swipe">Add Customer</Button
+    <Button fill round on:click={() => handleData()} sheetOpen=".add-customer"
+        >Add Customer</Button
     >
 </Block>
 

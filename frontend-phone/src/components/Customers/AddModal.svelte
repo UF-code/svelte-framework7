@@ -1,13 +1,16 @@
 <script>
+    // FRAMEWORK7 COMPONENTS
     import {
-        Popup,
-        Page,
-        Navbar,
-        NavRight,
-        Link,
         List,
-        ListInput,
+        ListItem,
+        Row,
         Button,
+        Fab,
+        Icon,
+        FabButtons,
+        BlockTitle,
+        Sheet,
+        ListInput,
     } from 'framework7-svelte'
 
     import { createEventDispatcher } from 'svelte'
@@ -16,64 +19,60 @@
     export let customer
 </script>
 
-<!-- ADD CUSTOMER -->
-<Popup class="add-popup-swipe" swipeToClose>
-    <Page>
-        <Navbar title="Add Customer">
-            <NavRight>
-                <Link popupClose>Close</Link>
-            </NavRight>
-        </Navbar>
-
-        <List noHairlinesMd>
+<Sheet
+    class="add-customer"
+    style="height: auto; --f7-sheet-bg-color: #fff"
+    swipeToClose
+    backdrop
+>
+    <List noHairlines>
+        <ListItem>
             <ListInput
                 label="First Name"
                 floatingLabel
                 type="text"
                 placeholder="First Name"
-                clearButton
                 bind:value={customer.first_name}
             />
-
+        </ListItem>
+        <ListItem>
             <ListInput
                 label="Last Name"
                 floatingLabel
                 type="text"
                 placeholder="Last Name"
-                clearButton
                 bind:value={customer.last_name}
             />
-
+        </ListItem>
+        <ListItem>
             <ListInput
                 label="E-mail"
                 floatingLabel
                 type="email"
                 validate
                 placeholder="Your e-mail"
-                clearButton
                 bind:value={customer.email}
             />
-
+        </ListItem>
+        <ListItem>
             <ListInput
                 label="Birthday"
                 type="date"
                 bind:value={customer.birthdate}
             />
-            <!-- placeholder="Please choose..." -->
+        </ListItem>
+    </List>
 
+    <div class="sheet-modal-swipe-step">
+        <div class="padding-horizontal padding-bottom">
             <Button
                 fill
                 round
                 small
-                popupClose=".add-popup-swipe"
+                sheetClose=".add-customer"
                 on:click={() => dispatch('add_customer', customer)}
                 >Add Customer</Button
             >
-        </List>
-
-        <div
-            style="height: 100%"
-            class="display-flex justify-content-center align-items-center"
-        />
-    </Page>
-</Popup>
+        </div>
+    </div>
+</Sheet>

@@ -19,7 +19,7 @@
     // CUSTOM COMPONENTS
     import EditModal from './EditModal.svelte'
     import DeleteModal from './DeleteModal.svelte'
-    import NewDeleteModal from './NewDeleteModal.svelte'
+    // import NewDeleteModal from './NewDeleteModal.svelte'
 
     //
     // $: modalState = ''
@@ -92,6 +92,7 @@
                         <Button
                             text="Edit"
                             popupOpen=".popup-swipe"
+                            sheetOpen=".demo-sheet-swipe-to-step"
                             on:click={handleData(customer.id)}
                             class="fab-close"
                         />
@@ -123,5 +124,3 @@
         deleteCustomer(e.detail.id)
     }}
 />
-
-<NewDeleteModal />

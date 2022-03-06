@@ -10,7 +10,13 @@
         FabButtons,
         BlockTitle,
         Sheet,
+        ListInput,
     } from 'framework7-svelte'
+
+    import { createEventDispatcher } from 'svelte'
+    const dispatch = createEventDispatcher()
+
+    export let current_customer
 </script>
 
 <Sheet
@@ -19,30 +25,60 @@
     swipeToClose
     backdrop
 >
-    <div class="sheet-modal-swipe-step">
-        <div
-            class="display-flex padding justify-content-space-between align-items-center"
-        >
-            <div style="font-size: 18px"><b>Total:</b></div>
-            <div style="font-size: 22px"><b>$500</b></div>
-        </div>
-        <div class="padding-horizontal padding-bottom">
-            <Button large fill>Make Payment</Button>
-            <!-- <div class="margin-top text-align-center">
-                Swipe up for more details
-            </div> -->
-        </div>
-    </div>
-    <BlockTitle medium class="margin-top">Your order:</BlockTitle>
+    <BlockTitle medium class="margin-top"
+        >Customer ID: {$current_customer.id}</BlockTitle
+    >
     <List noHairlines>
-        <ListItem title="Item 1">
-            <b slot="after" class="text-color-black">$200</b>
+        <ListItem>
+            <ListInput
+                label="First Name"
+                floatingLabel
+                type="text"
+                placeholder="First Name"
+                clearButton
+                disabled
+                bind:value={$current_customer.first_name}
+            />
         </ListItem>
-        <ListItem title="Item 2">
-            <b slot="after" class="text-color-black">$180</b>
+        <ListItem>
+            <ListInput
+                label="Last Name"
+                floatingLabel
+                type="text"
+                placeholder="Last Name"
+                clearButton
+                bind:value={$current_customer.last_name}
+            />
         </ListItem>
-        <ListItem title="Delivery">
-            <b slot="after" class="text-color-black">$120</b>
+        <ListItem>
+            <ListInput
+                label="E-mail"
+                floatingLabel
+                type="email"
+                validate
+                placeholder="Your e-mail"
+                clearButton
+                bind:value={$current_customer.email}
+            />
+        </ListItem>
+        <ListItem>
+            <ListInput
+                label="Birthday"
+                type="date"
+                bind:value={$current_customer.birthdate}
+            />
         </ListItem>
     </List>
+
+    <div class="sheet-modal-swipe-step">
+        <div class="padding-horizontal padding-bottom">
+            <Button
+                large
+                fill
+                sheetClose=".demo-sheet-swipe-to-step"
+                on:click={() => dispatch('delete_customer', $current_customer)}
+                >Delete Customer</Button
+            >
+        </div>
+    </div>
 </Sheet>

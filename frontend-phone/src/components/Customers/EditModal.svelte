@@ -1,81 +1,80 @@
 <script>
+    // FRAMEWORK7 COMPONENTS
     import {
-        Popup,
-        Page,
-        Navbar,
-        NavRight,
-        Link,
         List,
-        ListInput,
+        ListItem,
+        Row,
         Button,
+        Fab,
+        Icon,
+        FabButtons,
+        BlockTitle,
+        Sheet,
+        ListInput,
     } from 'framework7-svelte'
 
     import { createEventDispatcher } from 'svelte'
     const dispatch = createEventDispatcher()
 
     export let current_customer
-    export let modalState
-
-    console.log(modalState)
 </script>
 
-<!-- EDIT CUSTOMER -->
-<Popup class="popup-swipe" swipeToClose>
-    <Page>
-        <Navbar title="Edit Customer">
-            <NavRight>
-                <Link popupClose>Close</Link>
-            </NavRight>
-        </Navbar>
-
-        <List noHairlinesMd>
+<Sheet
+    class="demo-sheet-swipe-to-step"
+    style="height: auto; --f7-sheet-bg-color: #fff"
+    swipeToClose
+    backdrop
+>
+    <BlockTitle medium class="margin-top"
+        >Customer ID: {$current_customer.id}</BlockTitle
+    >
+    <List noHairlines>
+        <ListItem>
             <ListInput
                 label="First Name"
                 floatingLabel
                 type="text"
                 placeholder="First Name"
-                clearButton
                 bind:value={$current_customer.first_name}
             />
-
+        </ListItem>
+        <ListItem>
             <ListInput
                 label="Last Name"
                 floatingLabel
                 type="text"
                 placeholder="Last Name"
-                clearButton
                 bind:value={$current_customer.last_name}
             />
-
+        </ListItem>
+        <ListItem>
             <ListInput
                 label="E-mail"
                 floatingLabel
                 type="email"
                 validate
                 placeholder="Your e-mail"
-                clearButton
                 bind:value={$current_customer.email}
             />
-
+        </ListItem>
+        <ListItem>
             <ListInput
                 label="Birthday"
                 type="date"
                 bind:value={$current_customer.birthdate}
             />
+        </ListItem>
+    </List>
 
+    <div class="sheet-modal-swipe-step">
+        <div class="padding-horizontal padding-bottom">
             <Button
+                large
                 fill
-                round
-                small
-                popupClose=".popup-swipe"
+                sheetClose=".demo-sheet-swipe-to-step"
                 on:click={() => dispatch('edit_customer', $current_customer)}
                 >Edit Customer</Button
             >
-        </List>
-
-        <div
-            style="height: 100%"
-            class="display-flex justify-content-center align-items-center"
-        />
-    </Page>
-</Popup>
+        </div>
+    </div>
+</Sheet>
