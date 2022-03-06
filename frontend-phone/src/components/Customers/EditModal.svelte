@@ -20,7 +20,7 @@
 </script>
 
 <Sheet
-    class="demo-sheet-swipe-to-step"
+    class="edit-customer"
     style="height: auto; --f7-sheet-bg-color: #fff"
     swipeToClose
     backdrop
@@ -71,7 +71,7 @@
             <Button
                 large
                 fill
-                sheetClose=".demo-sheet-swipe-to-step"
+                sheetClose=".edit-customer"
                 on:click={() => dispatch('edit_customer', $current_customer)}
                 >Edit Customer</Button
             >

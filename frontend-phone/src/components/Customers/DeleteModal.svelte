@@ -20,7 +20,7 @@
 </script>
 
 <Sheet
-    class="demo-sheet-swipe-to-step"
+    class="delete-customer"
     style="height: auto; --f7-sheet-bg-color: #fff"
     swipeToClose
     backdrop
@@ -75,7 +75,7 @@
             <Button
                 large
                 fill
-                sheetClose=".demo-sheet-swipe-to-step"
+                sheetClose=".delete-customer"
                 on:click={() => dispatch('delete_customer', $current_customer)}
                 >Delete Customer</Button
             >

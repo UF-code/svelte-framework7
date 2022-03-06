@@ -21,9 +21,6 @@
     import DeleteModal from './DeleteModal.svelte'
     // import NewDeleteModal from './NewDeleteModal.svelte'
 
-    //
-    // $: modalState = ''
-
     // USEFUL METHODS //
     // let padToTwo = (number) => (number <= 99 ? `0${number}`.slice(-2) : number)
 
@@ -74,38 +71,37 @@
                 Full Name: {customer.first_name}
                 {customer.last_name}
             </p>
+
             <p>Email: {customer.email}</p>
             <p>Birthdate: {customer.birthdate}</p>
-            <Row>
-                <Fab position="right-top" color="blue" style="top:-33px">
-                    <Icon
-                        ios="f7:ellipsis"
-                        aurora="f7:ellipsis"
-                        md="material:ellipsis"
+
+            <Fab position="right-top" color="blue" style="top:-33px">
+                <Icon
+                    ios="f7:ellipsis"
+                    aurora="f7:ellipsis"
+                    md="material:ellipsis"
+                />
+                <Icon
+                    ios="f7:ellipsis_vertical"
+                    aurora="f7:ellipsis_vertical"
+                    md="material:ellipsis_vertical"
+                />
+                <FabButtons position="bottom">
+                    <Button
+                        text="Edit"
+                        sheetOpen=".edit-customer"
+                        on:click={handleData(customer.id)}
+                        class="fab-close"
                     />
-                    <Icon
-                        ios="f7:ellipsis_vertical"
-                        aurora="f7:ellipsis_vertical"
-                        md="material:ellipsis_vertical"
+                    <Button
+                        style="width:60px; margin-left:-10px;"
+                        text="Delete"
+                        sheetOpen=".delete-customer"
+                        on:click={handleData(customer.id)}
+                        class="fab-close"
                     />
-                    <FabButtons position="bottom">
-                        <Button
-                            text="Edit"
-                            popupOpen=".popup-swipe"
-                            sheetOpen=".demo-sheet-swipe-to-step"
-                            on:click={handleData(customer.id)}
-                            class="fab-close"
-                        />
-                        <Button
-                            style="width:60px; margin-left:-10px;"
-                            text="Delete"
-                            sheetOpen=".demo-sheet-swipe-to-step"
-                            on:click={handleData(customer.id)}
-                            class="fab-close"
-                        />
-                    </FabButtons>
-                </Fab>
-            </Row>
+                </FabButtons>
+            </Fab>
         </ListItem>
     {/each}
 </List>

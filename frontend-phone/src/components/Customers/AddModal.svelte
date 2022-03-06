@@ -67,8 +67,7 @@
         <div class="padding-horizontal padding-bottom">
             <Button
                 fill
-                round
-                small
+                large
                 sheetClose=".add-customer"
                 on:click={() => dispatch('add_customer', customer)}
                 >Add Customer</Button
