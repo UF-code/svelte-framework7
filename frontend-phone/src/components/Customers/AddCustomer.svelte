@@ -3,7 +3,8 @@
 
     // FETCHING DATA FROM CUSTOM API
     import axios from '../../js/axios.js'
-    // STORING REACTIVE DATA IN STORE CUSTOMERS
+    // SVELTE STORE
+    // STORING REACTIVE DATA IN STORE CUSTOMERS 
     import { store_customers } from '../../js/customer_store.js'
     // CUSTOM COMPONENT
     import AddModal from './AddModal.svelte'

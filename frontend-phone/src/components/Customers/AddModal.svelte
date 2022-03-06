@@ -55,38 +55,11 @@
             />
 
             <ListInput
-                label="Birthdate"
-                type="datepicker"
-                placeholder="Select date"
-                readonly
-                calendarParams={{
-                    openIn: 'customModal',
-                    header: true,
-                    footer: true,
-                    dateFormat: 'MM dd yyyy',
-                    on: {
-                        calendarChange: (v) => {
-                            console.log(v)
-                            customer.birthdate = v.value[0]
-                            console.log(v.value)
-                        },
-                    },
-                    monthNames: [
-                        'Ocak',
-                        'February',
-                        'March',
-                        'April',
-                        'May',
-                        'June',
-                        'July',
-                        'August',
-                        'September',
-                        'October',
-                        'November',
-                        'December',
-                    ],
-                }}
+                label="Birthday"
+                type="date"
+                bind:value={customer.birthdate}
             />
+            <!-- placeholder="Please choose..." -->
 
             <Button
                 fill

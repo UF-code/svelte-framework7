@@ -13,7 +13,7 @@
     import { createEventDispatcher } from 'svelte'
     const dispatch = createEventDispatcher()
 
-    export let customer
+    export let current_customer
 </script>
 
 <Popup class="delete-popup-swipe" swipeToClose>
@@ -31,7 +31,7 @@
                 type="text"
                 placeholder="First Name"
                 clearButton
-                bind:value={customer.first_name}
+                bind:value={$current_customer.first_name}
             />
 
             <ListInput
@@ -40,7 +40,7 @@
                 type="text"
                 placeholder="Last Name"
                 clearButton
-                bind:value={customer.last_name}
+                bind:value={$current_customer.last_name}
             />
 
             <ListInput
@@ -50,27 +50,21 @@
                 validate
                 placeholder="Your e-mail"
                 clearButton
-                bind:value={customer.email}
+                bind:value={$current_customer.email}
             />
 
             <ListInput
-                label="Birthdate"
-                type="datepicker"
-                placeholder="Select date"
-                readonly
-                calendarParams={{
-                    openIn: 'customModal',
-                    header: true,
-                    footer: true,
-                    dateFormat: 'MM dd yyyy',
-                }}
+                label="Birthday"
+                type="date"
+                bind:value={$current_customer.birthdate}
             />
+
             <Button
                 fill
                 round
                 small
                 popupClose=".delete-popup-swipe"
-                on:click={() => dispatch('delete1', customer)}
+                on:click={() => dispatch('delete1', $current_customer)}
                 >Delete Customer</Button
             >
         </List>

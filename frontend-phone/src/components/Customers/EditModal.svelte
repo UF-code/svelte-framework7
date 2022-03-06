@@ -13,7 +13,8 @@
     import { createEventDispatcher } from 'svelte'
     const dispatch = createEventDispatcher()
 
-    export let customer
+    export let current_customer
+    console.log($current_customer)
 </script>
 
 <!-- EDIT CUSTOMER -->
@@ -32,7 +33,7 @@
                 type="text"
                 placeholder="First Name"
                 clearButton
-                bind:value={customer.first_name}
+                bind:value={$current_customer.first_name}
             />
 
             <ListInput
@@ -41,7 +42,7 @@
                 type="text"
                 placeholder="Last Name"
                 clearButton
-                bind:value={customer.last_name}
+                bind:value={$current_customer.last_name}
             />
 
             <ListInput
@@ -51,41 +52,13 @@
                 validate
                 placeholder="Your e-mail"
                 clearButton
-                bind:value={customer.email}
+                bind:value={$current_customer.email}
             />
 
             <ListInput
-                label="Birthdate"
-                type="datepicker"
-                placeholder="Select date"
-                readonly
-                calendarParams={{
-                    openIn: 'customModal',
-                    header: true,
-                    footer: true,
-                    dateFormat: 'MM dd yyyy',
-                    on: {
-                        calendarChange: (v) => {
-                            console.log(v)
-                            customer.birthdate = v.value[0]
-                            console.log(v.value)
-                        },
-                    },
-                    monthNames: [
-                        'Ocak',
-                        'February',
-                        'March',
-                        'April',
-                        'May',
-                        'June',
-                        'July',
-                        'August',
-                        'September',
-                        'October',
-                        'November',
-                        'December',
-                    ],
-                }}
+                label="Birthday"
+                type="date"
+                bind:value={$current_customer.birthdate}
             />
 
             <Button
@@ -93,7 +66,7 @@
                 round
                 small
                 popupClose=".popup-swipe"
-                on:click={() => dispatch('edit_customer', customer)}
+                on:click={() => dispatch('edit_customer', $current_customer)}
                 >Edit Customer</Button
             >
         </List>

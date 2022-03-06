@@ -11,23 +11,17 @@
     } from 'framework7-svelte'
     // FETCHING DATA FROM CUSTOM API
     import axios from '../../js/axios.js'
+    // SVELTE STORE
     // STORING REACTIVE DATA IN STORE CUSTOMERS
     import { store_customers } from '../../js/customer_store.js'
+    // STORING CURRENT CUSTOMER AS REACTIVE DATA
+    import { current_customer } from '../../js/current_customer_store.js'
     // CUSTOM COMPONENTS
     import EditModal from './EditModal.svelte'
     import DeleteModal from './DeleteModal.svelte'
 
-    // CUSTOMER
-    $: customer = {
-        id: '',
-        first_name: '',
-        last_name: '',
-        email: '',
-        birthdate: '',
-    }
-
     // USEFUL METHODS //
-    let padToTwo = (number) => (number <= 99 ? `0${number}`.slice(-2) : number)
+    // let padToTwo = (number) => (number <= 99 ? `0${number}`.slice(-2) : number)
 
     let find_customer = (customer_id) =>
         $store_customers.find((customer) => customer.id === customer_id)
@@ -35,23 +29,17 @@
 
     // SETTING POPUP VARIABLES
     const handleData = (id_) => {
-        let current_customer = find_customer(id_)
-        customer.id = current_customer.id
-        customer.first_name = current_customer.first_name
-        customer.last_name = current_customer.last_name
-        customer.email = current_customer.email
-        customer.birthdate = current_customer.birthdate
+        let customer_found = find_customer(id_)
+        $current_customer = customer_found
     }
 
     // EDITING CUSTOMER
-    const editCustomer = async () => {
+    const editCustomer = async (customer) => {
         try {
             await axios.put(`/updateCustomer/${customer.id}`, customer)
-            let current_customer = find_customer(customer.id)
-            current_customer.first_name = customer.first_name
-            current_customer.last_name = customer.last_name
-            current_customer.email = customer.email
-            current_customer.birthdate = customer.birthdate
+            let customer_found = find_customer(customer.id)
+
+            $current_customer = customer_found
 
             store_customers.set($store_customers)
         } catch (error) {
@@ -60,13 +48,13 @@
     }
 
     // DELETING CUSTOMER
-    const deleteCustomer = async () => {
+    const deleteCustomer = async (id_) => {
         let customer_removed = $store_customers.filter(
-            (customer_remove) => customer_remove.id != customer.id
+            (customer_remove) => customer_remove.id != id_
         )
 
         try {
-            await axios.delete(`/deleteCustomer/${customer.id}`)
+            await axios.delete(`/deleteCustomer/${id_}`)
 
             $store_customers = [...customer_removed]
         } catch (error) {
@@ -78,7 +66,10 @@
 <List mediaList>
     {#each $store_customers as customer}
         <ListItem title={`Customer ID: ${customer.id}  `}>
-            <p>Full Name: {customer.first_name} {customer.last_name}</p>
+            <p>
+                Full Name: {customer.first_name}
+                {customer.last_name}
+            </p>
             <p>Email: {customer.email}</p>
             <p>Birthdate: {customer.birthdate}</p>
             <Row>
@@ -115,17 +106,15 @@
 </List>
 
 <EditModal
-    {customer}
+    {current_customer}
     on:edit_customer={(e) => {
-        console.log(e.detail)
-        editCustomer()
+        editCustomer(e.detail)
     }}
 />
 
 <DeleteModal
-    {customer}
+    {current_customer}
     on:delete1={(e) => {
-        console.log(e.detail)
-        deleteCustomer()
+        deleteCustomer(e.detail.id)
     }}
 />
