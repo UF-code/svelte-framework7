@@ -14,7 +14,9 @@
     const dispatch = createEventDispatcher()
 
     export let current_customer
-    console.log($current_customer)
+    export let modalState
+
+    console.log(modalState)
 </script>
 
 <!-- EDIT CUSTOMER -->

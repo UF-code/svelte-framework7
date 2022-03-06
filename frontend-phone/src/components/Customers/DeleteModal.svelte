@@ -64,7 +64,7 @@
                 round
                 small
                 popupClose=".delete-popup-swipe"
-                on:click={() => dispatch('delete1', $current_customer)}
+                on:click={() => dispatch('delete_customer', $current_customer)}
                 >Delete Customer</Button
             >
         </List>

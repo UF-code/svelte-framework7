@@ -19,6 +19,10 @@
     // CUSTOM COMPONENTS
     import EditModal from './EditModal.svelte'
     import DeleteModal from './DeleteModal.svelte'
+    import NewDeleteModal from './NewDeleteModal.svelte'
+
+    //
+    // $: modalState = ''
 
     // USEFUL METHODS //
     // let padToTwo = (number) => (number <= 99 ? `0${number}`.slice(-2) : number)
@@ -94,7 +98,7 @@
                         <Button
                             style="width:60px; margin-left:-10px;"
                             text="Delete"
-                            popupOpen=".delete-popup-swipe"
+                            sheetOpen=".demo-sheet-swipe-to-step"
                             on:click={handleData(customer.id)}
                             class="fab-close"
                         />
@@ -106,6 +110,7 @@
 </List>
 
 <EditModal
+    modalState={'editModal'}
     {current_customer}
     on:edit_customer={(e) => {
         editCustomer(e.detail)
@@ -114,7 +119,9 @@
 
 <DeleteModal
     {current_customer}
-    on:delete1={(e) => {
+    on:delete_customer={(e) => {
         deleteCustomer(e.detail.id)
     }}
 />
+
+<NewDeleteModal />
