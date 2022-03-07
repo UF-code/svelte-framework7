@@ -16,12 +16,6 @@
         birthdate: '',
     }
 
-    const handleData = () => {
-        customer.first_name = ''
-        customer.last_name = ''
-        customer.email = ''
-        customer.birthdate = ''
-    }
 
     const addCustomer = async () => {
         try {
@@ -37,7 +31,7 @@
 </script>
 
 <Block strong>
-    <Button fill round on:click={() => handleData()} sheetOpen=".add-customer"
+    <Button fill round sheetOpen=".add-customer"
         >Add Customer</Button
     >
 </Block>
